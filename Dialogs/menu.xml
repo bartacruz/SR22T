@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<PropertyList>
+
+    <default>
+        <menu n="10">
+            <label>Cirrus Design SR22T</label>
+            <enabled type="bool">true</enabled><!--
+                <item>
+                <label>Auto Start</label>
+                <binding>
+                <command>nasal</command>
+                <script>da42.autostart();</script>
+                </binding>
+            </item>-->
+            <item>
+                <label>Select Livery</label>
+                <binding>
+                <command>nasal</command>
+                <script>aircraft.livery.dialog.toggle();</script>
+                </binding>
+            </item><!--
+            <item>
+                <label>Immatriculation</label>
+                <binding>
+                <command>nasal</command>
+                <script>da42.immat_dialog.open();</script>
+                </binding>
+            </item>
+                <item>
+                <label>Show/hide pilot</label>
+                <binding>
+                <command>nasal</command>
+                <script>da42.togglePilot();</script>
+                </binding>
+            </item>-->
+            <item>
+                    <label>Pushback</label>
+                    <name>pushback</name>
+                    <binding>
+                            <command>dialog-show</command>
+                            <dialog-name>pushback</dialog-name>
+                    </binding>
+            </item>
+        </menu>
+    </default>
+
+
+</PropertyList>
+
