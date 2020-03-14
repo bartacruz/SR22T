@@ -13,6 +13,9 @@ setprop("/test", 1);
 
 var ready = "/instrumentation/MD302/ready";
 
+
+var instrument_path = "Aircraft/SR22T/Models/Interior/Instruments/MD302/";
+
 #roundToNearest function used for alt tape, thanks @Soitanen (737-800)!
 var roundToNearest = func(n, m) {
 	var x = int(n/m)*m;
@@ -65,6 +68,7 @@ var canvas_MD302_alt_base = {
 	update: func() {
 		if (getprop("/systems/electrical/volts") > 15 and getprop(ready)==1) {
 			MD302_alt_only.page.show();
+			MD302_alt_only.update();
 			MD302_alt_start.page.hide();
 		} else	if (getprop("/systems/electrical/volts") > 15 and getprop(ready)!=1) {
 			MD302_alt_start.page.show();
@@ -73,8 +77,6 @@ var canvas_MD302_alt_base = {
 			MD302_alt_only.page.hide();
 			MD302_alt_start.page.hide();
 		}
-		
-		settimer(func me.update(), 0.02);
 	},
 };
 	
@@ -223,9 +225,6 @@ var canvas_MD302_alt_only = {
 		var qnh_inhg = getprop("/instrumentation/altimeter/setting-inhg") or 0;
 		me["qnh"].setText(sprintf("%2.2f", qnh_inhg));
 		
-		
-		
-		settimer(func me.update(), 0.02);
 	},
 };
 
@@ -241,18 +240,12 @@ var canvas_MD302_alt_start = {
 		return [];
 	},
 	update: func() {
-	
-		settimer(func me.update(), 0.02);
 	},
 };
 
-var identoff = func {
-	setprop("/instrumentation/transponder/inputs/ident-btn", 0);
-}
 
-setlistener("/instrumentation/transponder/inputs/ident-btn-2", func{
-	setprop("/instrumentation/transponder/inputs/ident-btn", 1);
-	settimer(identoff, 18);
+var update_timer_alt = maketimer(0.02, func {
+	canvas_MD302_alt_base.update();
 });
 
 
@@ -267,12 +260,10 @@ setlistener("sim/signals/fdm-initialized", func {
 	var groupOnly = MD302_alt_display.createGroup();
 	var groupStart = MD302_alt_display.createGroup();
 
-	MD302_alt_only = canvas_MD302_alt_only.new(groupOnly, "Aircraft/SR22T/Models/Interior/Instruments/MD302/MD302_alt.svg");
-	MD302_alt_start = canvas_MD302_alt_start.new(groupStart, "Aircraft/SR22T/Models/Interior/Instruments/MD302/MD302_start.svg");
-
-	MD302_alt_only.update();
-	MD302_alt_start.update();
-	canvas_MD302_alt_base.update();
+	MD302_alt_only = canvas_MD302_alt_only.new(groupOnly, instrument_path~"MD302_alt.svg");
+	MD302_alt_start = canvas_MD302_alt_start.new(groupStart, instrument_path~"MD302_start.svg");
+	
+	update_timer_alt.start();
 });
 
 var showALT = func {

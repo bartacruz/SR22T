@@ -19,6 +19,8 @@ setprop(brightness_adjst, 0);
 var brightness = "/instrumentation/MD302/brightness";
 setprop(brightness, 0.8);
 
+var instrument_path = "Aircraft/SR22T/Models/Interior/Instruments/MD302/";
+
 var canvas_MD302_ai_base = {
 	init: func(canvas_group, file) {
 		var font_mapper = func(family, weight) {
@@ -49,7 +51,7 @@ var canvas_MD302_ai_base = {
 			}
 		}
 		
-		if(file=="Aircraft/SR22T/Models/Interior/Instruments/MD302/MD302_ai.svg"){
+		if(file==instrument_path~"MD302_ai.svg"){
 			me.h_trans = me["horizon"].createTransform();
 			me.h_rot = me["horizon"].createTransform();
 			me.h2_trans = me["pitch.scale"].createTransform();
@@ -67,6 +69,7 @@ var canvas_MD302_ai_base = {
 	update: func() {
 		if (getprop("/systems/electrical/volts") > 15 and getprop(ready)==1) {
 			MD302_ai_only.page.show();
+			MD302_ai_only.update();
 			MD302_ai_start.page.hide();
 		} else	if (getprop("/systems/electrical/volts") > 15 and getprop(ready)!=1) {
 			MD302_ai_start.page.show();
@@ -75,8 +78,6 @@ var canvas_MD302_ai_base = {
 			MD302_ai_only.page.hide();
 			MD302_ai_start.page.hide();
 		}
-		
-		settimer(func me.update(), 0.02);
 	},
 };
 	
@@ -92,10 +93,7 @@ var canvas_MD302_ai_only = {
 		return ["pitch.scale","horizon","ball","compass","heading","roll.pointer","brightness","brightness.bar"];
 	},
 	update: func() {
-		
-		
 		#Attitude Indicator
-		
 		var pitch = getprop("orientation/pitch-deg") or 0;
 		var roll =  getprop("orientation/roll-deg") or 0;
 		
@@ -119,10 +117,6 @@ var canvas_MD302_ai_only = {
 		}else{
 			me["brightness"].hide();
 		}
-		
-		
-		
-		settimer(func me.update(), 0.02);
 	},
 };
 	
@@ -138,13 +132,14 @@ var canvas_MD302_ai_start = {
 		return [];
 	},
 	update: func() {
-	
-		settimer(func me.update(), 0.02);
 	},
 };
 
 
 
+var update_timer_ai = maketimer(0.02, func {
+	canvas_MD302_ai_base.update();
+});
 
 setlistener("sim/signals/fdm-initialized", func {
 	MD302_ai_display = canvas.new({
@@ -157,12 +152,10 @@ setlistener("sim/signals/fdm-initialized", func {
 	var groupOnly = MD302_ai_display.createGroup();
 	var groupStart = MD302_ai_display.createGroup();
 
-	MD302_ai_only = canvas_MD302_ai_only.new(groupOnly, "Aircraft/SR22T/Models/Interior/Instruments/MD302/MD302_ai.svg");
-	MD302_ai_start = canvas_MD302_ai_start.new(groupStart, "Aircraft/SR22T/Models/Interior/Instruments/MD302/MD302_start.svg");
-
-	MD302_ai_only.update();
-	MD302_ai_start.update();
-	canvas_MD302_ai_base.update();
+	MD302_ai_only = canvas_MD302_ai_only.new(groupOnly, instrument_path~"MD302_ai.svg");
+	MD302_ai_start = canvas_MD302_ai_start.new(groupStart, instrument_path~"MD302_start.svg");
+	
+	update_timer_ai.start();
 });
 
 var showAI = func {
