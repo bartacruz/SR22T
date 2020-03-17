@@ -2,7 +2,6 @@
 <PropertyList>
 	<path>interior.ac</path>
 	<animation>
-		<!-- Objets opaques -->
 		<object-name>interior</object-name>
 		<object-name>shell</object-name>
 		<object-name>panel</object-name>
@@ -10,7 +9,6 @@
 		<object-name>seatFL</object-name>
 		<object-name>seatFR</object-name>
 		<object-name>seatsR</object-name>
-		<!-- Objets transparents -->
 		<object-name>intwindows</object-name>
 		<object-name>intwindowL</object-name>
 		<object-name>intwindowR</object-name>

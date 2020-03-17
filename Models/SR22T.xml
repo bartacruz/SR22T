@@ -4,31 +4,15 @@
 	<nasal>
 		<load>
 			var livery_update = aircraft.livery_update.new("Aircraft/SR22T/Models/Liveries", 10);
-			var self = cmdarg();
-			var float_0 = self.getNode("sim/multiplay/generic/float[0]", 1);
-			var float_1 = self.getNode("sim/multiplay/generic/float[1]", 1);
-			var float_2 = self.getNode("sim/multiplay/generic/float[2]", 1);
-			
-			var crew_door = self.getNode("instrumentation/doors/crew/position-norm", 1);
-			var passenger_door = self.getNode("instrumentation/doors/passenger/position-norm", 1);
-			var baggage_door = self.getNode("instrumentation/doors/baggage/position-norm", 1);
-			
-			crew_door.alias(float_0);
-			passenger_door.alias(float_1);
-			baggage_door.alias(float_2);
 		</load>
 		<unload>
 			livery_update.stop();
-			crew_door.unalias();
-			passenger_door.unalias();
-			baggage_door.unalias();
 		</unload>
 	</nasal>
 	<effect>
 		<inherits-from>Effects/fuselage-reflect</inherits-from>
 		<!--Body-->
 		<object-name>fuselage</object-name>
-		<object-name>antennas</object-name>
 		<object-name>doorL</object-name>
 		<object-name>doorR</object-name>
 		<object-name>baggage_door</object-name>
@@ -140,34 +124,6 @@
 			<y-m> 0.1949 </y-m>
 			<z-m>  -0.75 </z-m>
 			<pitch-deg>30</pitch-deg>
-		</offsets>
-	</model>
-	<!-- Effets sur le sol -->
-	<!-- Roue avant -->
-	<model>
-		<path>Effects/ground/ground0.xml</path>
-		<offsets>
-			<x-m> -2.95978 </x-m>
-			<y-m>  0.000 </y-m>
-			<z-m> -1.2964 </z-m>
-		</offsets>
-	</model>
-	<!-- Roue gauche -->
-	<model>
-		<path>Effects/ground/ground1.xml</path>
-		<offsets>
-			<x-m> -1.0622 </x-m>
-			<y-m> -1.21751 </y-m>
-			<z-m> -1.30231 </z-m>
-		</offsets>
-	</model>
-	<!-- Roue droite -->
-	<model>
-		<path>Effects/ground/ground2.xml</path>
-		<offsets>
-			<x-m> -1.0622 </x-m>
-			<y-m> 1.21751 </y-m>
-			<z-m> -1.30231 </z-m>
 		</offsets>
 	</model>
 	<!-- Interior -->
@@ -437,42 +393,56 @@
 			<z> 0 </z>
 		</axis>
 	</animation>
-	<!--
-    <animation>
-            <type>translate</type>
-            <object-name>RoueGauche</object-name>
-            <property>gear/gear[1]/compression-norm</property>
-            <interpolation>
-                    <entry><ind> 0 </ind><dep>  0.01 </dep></entry>
-                    <entry><ind> 1 </ind><dep> -0.10 </dep></entry>
-            </interpolation>
-            <axis>
-                    <x> 0 </x>
-                    <y> 0 </y>
-                    <z> 1 </z>
-            </axis>
-    </animation>
-
-    <animation>
-            <name>RoueDroite</name>
-            <object-name>roueD</object-name>
-            <object-name>axeDB</object-name>
-    </animation>
-
-    <animation>
-            <type>translate</type>
-            <object-name>RoueDroite</object-name>
-            <property>gear/gear[2]/compression-norm</property>
-            <interpolation>
-                    <entry><ind> 0 </ind><dep>  0.01 </dep></entry>
-                    <entry><ind> 1 </ind><dep> -0.10 </dep></entry>
-            </interpolation>
-            <axis>
-                    <x> 0 </x>
-                    <y> 0 </y>
-                    <z> 1 </z>
-            </axis>
-    </animation>-->
+	<animation>
+		<type>rotate</type>
+		<object-name>wheelL</object-name>
+		<object-name>wheelfairingL</object-name>
+		<property>gear/gear[1]/compression-norm</property>
+		<interpolation>
+			<entry>
+				<ind> 0 </ind>
+				<dep> 0.0 </dep>
+			</entry>
+			<entry>
+				<ind> 1 </ind>
+				<dep> 30</dep>
+			</entry>
+		</interpolation>
+		<center>
+			<y-m>-0.980671</y-m>
+			<z-m>-0.601707</z-m>
+		</center>
+		<axis>
+			<x> 1 </x>
+			<y> 0 </y>
+			<z> 0 </z>
+		</axis>
+	</animation>
+	<animation>
+		<type>rotate</type>
+		<object-name>wheelR</object-name>
+		<object-name>wheelfairingR</object-name>
+		<property>gear/gear[2]/compression-norm</property>
+		<interpolation>
+			<entry>
+				<ind> 0 </ind>
+				<dep> 0.0 </dep>
+			</entry>
+			<entry>
+				<ind> 1 </ind>
+				<dep> 30</dep>
+			</entry>
+		</interpolation>
+		<center>
+			<y-m> 0.980671</y-m>
+			<z-m>-0.601707</z-m>
+		</center>
+		<axis>
+			<x> 1 </x>
+			<y> 0 </y>
+			<z> 0 </z>
+		</axis>
+	</animation>
 	<!-- Rotate nose wheel (castering) -->
 	<animation>
 		<type>rotate</type>
@@ -489,16 +459,14 @@
 		</center>
 	</animation>
 	<!-- Spin Wheels -->
-	<!--
 	<animation>
 		<type>spin</type>
-		<object-name>roueA</object-name>
+		<object-name>wheelF</object-name>
 		<property>gear/gear[0]/rollspeed-ms</property>
 		<factor> 30 </factor>
 		<center>
-			<x-m> -2.578 </x-m>
-			<y-m>  0.000 </y-m>
-			<z-m> -1.052 </z-m>
+			<x-m>-3.00529</x-m>
+			<z-m>-1.18911</z-m>
 		</center>
 		<axis>
 			<x>  0 </x>
@@ -506,16 +474,14 @@
 			<z>  0 </z>
 		</axis>
 	</animation>
-
 	<animation>
 		<type>spin</type>
-		<object-name>roueG</object-name>
+		<object-name>wheelL</object-name>
 		<property>gear/gear[1]/rollspeed-ms</property>
 		<factor> 30 </factor>
 		<center>
-			<x-m> -1.147 </x-m>
-			<y-m> -1.358 </y-m>
-			<z-m> -1.032 </z-m>
+			<x-m>-0.9487</x-m>
+			<z-m>-1.17368</z-m>
 		</center>
 		<axis>
 			<x>  0 </x>
@@ -523,32 +489,43 @@
 			<z>  0 </z>
 		</axis>
 	</animation>
-
 	<animation>
 		<type>spin</type>
-		<object-name>roueD</object-name>
+		<object-name>wheelR</object-name>
 		<property>gear/gear[2]/rollspeed-ms</property>
 		<factor> 30 </factor>
 		<center>
-			<x-m> -1.147 </x-m>
-			<y-m>  1.358 </y-m>
-			<z-m> -1.032 </z-m>
+			<x-m>-0.9487</x-m>
+			<z-m>-1.17368</z-m>
 		</center>
 		<axis>
 			<x>  0 </x>
 			<y> -1 </y>
 			<z>  0 </z>
 		</axis>
-	</animation>-->
+	</animation>
 	
 	<!--DOOR ANIMATION-->
+	<animation>
+		<type>pick</type>
+		<object-name>doorL</object-name>
+		<object-name>doorLint</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-toggle</command>
+				<property>sr22t/doors/left-input</property>
+			</binding>
+		</action>
+	</animation>
 	<animation>
 		<type>rotate</type>
 		<object-name>doorL</object-name>
 		<object-name>doorLint</object-name>
 		<object-name>windowL</object-name>
 		<object-name>intwindowL</object-name>
-		<property>instrumentation/doors/crew/position-norm</property>
+		<property>sr22t/doors/left-pos-norm</property>
 		<factor> -68 </factor>
 		<axis>
 			<x1-m> -1.8084 </x1-m>
@@ -559,16 +536,17 @@
 			<z2-m> 0.7069  </z2-m>
 		</axis>
 	</animation>
+	
 	<animation>
 		<type>pick</type>
-		<object-name>doorL</object-name>
-		<object-name>doorLint</object-name>
+		<object-name>doorR</object-name>
+		<object-name>doorRint</object-name>
 		<action>
 			<button>0</button>
 			<repeatable>false</repeatable>
 			<binding>
-				<command>nasal</command>
-				<script>doors.doorsystem.crewexport();</script>
+				<command>property-toggle</command>
+				<property>sr22t/doors/right-input</property>
 			</binding>
 		</action>
 	</animation>
@@ -578,7 +556,7 @@
 		<object-name>doorRint</object-name>
 		<object-name>windowR</object-name>
 		<object-name>intwindowR</object-name>
-		<property>instrumentation/doors/passenger/position-norm</property>
+		<property>sr22t/doors/right-pos-norm</property>
 		<factor> 68 </factor>
 		<axis>
 			<x1-m> -1.8084 </x1-m>
@@ -589,19 +567,7 @@
 			<z2-m> 0.7069  </z2-m>
 		</axis>
 	</animation>
-	<animation>
-		<type>pick</type>
-		<object-name>doorR</object-name>
-		<object-name>doorRint</object-name>
-		<action>
-			<button>0</button>
-			<repeatable>false</repeatable>
-			<binding>
-				<command>nasal</command>
-				<script>doors.doorsystem.passengerexport();</script>
-			</binding>
-		</action>
-	</animation>
+	
 	<animation>
 		<type>pick</type>
 		<object-name>baggage_door</object-name>
@@ -610,8 +576,8 @@
 			<button>0</button>
 			<repeatable>false</repeatable>
 			<binding>
-				<command>nasal</command>
-				<script>doors.doorsystem.baggageexport();</script>
+				<command>property-toggle</command>
+				<property>sr22t/doors/baggage-input</property>
 			</binding>
 		</action>
 	</animation>
@@ -619,7 +585,7 @@
 		<type>rotate</type>
 		<object-name>baggage_door</object-name>
 		<object-name>baggage_door_int</object-name>
-		<property>instrumentation/doors/baggage/position-norm</property>
+		<property>sr22t/doors/baggage-pos-norm</property>
 		<factor> 90 </factor>
 		<center>
 			<x-m> 0.04558 </x-m>

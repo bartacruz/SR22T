@@ -254,7 +254,8 @@
 			<contents unit="LBS"> 133.23 </contents>
 		</tank>
 	</propulsion>
-	<system file="propeller"/>
+	<system file="sr22t-propeller"/>
+	<system file="sr22t-fcs"/>
 	<flight_control name="FCS: SR22T">
 		<channel name="Pitch">
 			<summer name="Pitch Trim Sum">
