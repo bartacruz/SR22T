@@ -160,6 +160,8 @@ var update_virtual_bus = func(dt) {
 	var Bat2Volts = battery2.get_output_volts();
 	var Bat2Amps = battery2.get_output_amps();
 	var power_source = nil;
+	var BatAmps = 0.0;
+	var BatVolts = 0.0;
 	load = 0.0;
 	load += electrical_bus(bus_volts);                                        # On récupère l'ampérage utilisé par le Bus électrique
 	load += avionics_bus(bus_volts);                                          # On récupère l'ampérage utilisé par le Bus Avionics
@@ -169,11 +171,11 @@ var update_virtual_bus = func(dt) {
 	#####################################################################
 	if(PWR){                                                                  # Si le système électrique n'est pas endommagé
 		if(BATT1.getBoolValue() ) {
-			var BatAmps=Bat1Amps;
-			var BatVolts=Bat1Volts;
+			BatAmps=Bat1Amps;
+			BatVolts=Bat1Volts;
 		}else if(BATT2.getBoolValue() ) {
-			var BatAmps=Bat2Amps;
-			var BatVolts=Bat2Volts;
+			BatAmps=Bat2Amps;
+			BatVolts=Bat2Volts;
 		}
 		if (ALT_L.getBoolValue() and (AltAmps_L > BatAmps)){        
 			bus_volts = AltVolts_L;                                             # L'alternateur fournit la tension au Bus

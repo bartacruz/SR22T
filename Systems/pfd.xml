@@ -499,19 +499,6 @@
       </input>
       <output>instrumentation/PFD/alt-100</output>
   </filter>
-  <filter>
-      <name>Altitude 1</name> 
-      <type>gain</type>
-			<gain>1.0</gain> 
-     <input>
-	     <expression>
-		     <floor>
-				<property>instrumentation/altimeter/indicated-altitude-ft</property>
-		</floor>
-	</expression>
-      </input>
-      <output>instrumentation/PFD/alt-1</output>
-  </filter>
   
   
   <filter>

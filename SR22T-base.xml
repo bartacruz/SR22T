@@ -193,6 +193,9 @@
 		<securing-state type="int">0</securing-state>
 	</payload>
 	<instrumentation>
+		<heading-indicator>
+			<heading-bug-deg type="float">0</heading-bug-deg>
+		</heading-indicator>
 		<PFD>
 			<altitude-bug type="int">0</altitude-bug>
 		</PFD>
@@ -214,6 +217,9 @@
 			<audio-btn type="bool">1</audio-btn>
 			<ident type="bool">1</ident>
 			<display-volume type="bool">0</display-volume>
+			<radials>
+				<target-radial-deg type="float">0</target-radial-deg>
+			</radials>
 		</nav>
 		<nav n="1">
 			<serviceable type="bool">1</serviceable>
@@ -250,42 +256,6 @@
 		<audio>
 			<serviceable type="bool">0</serviceable>
 		</audio>
-		<zkv1000>
-			<device n="0">
-				<groundradar>
-					<range type="double">0.5</range>
-					<id type="string">KSFO</id>
-				</groundradar>
-				<serviceable type="bool">0</serviceable>
-			</device>
-			<device n="1">
-				<groundradar>
-					<range type="double">0.5</range>
-					<id type="string">KSFO</id>
-				</groundradar>
-				<serviceable type="bool">0</serviceable>
-			</device>
-			<moving-map>
-				<width-m type="double">0.217353</width-m>
-				<height-m type="double">0.147023</height-m>
-				<controls>
-					<range-nm type="int">25</range-nm>
-				</controls>
-				<terrain-elevation>
-					<use-high-resolution type="bool">false</use-high-resolution>
-				</terrain-elevation>
-			</moving-map>
-			<symbmap-range type="int">10</symbmap-range>
-			<symbols>
-				<airport type="bool">1</airport>
-				<vor type="bool">1</vor>
-				<ndb type="bool">1</ndb>
-				<fix type="bool">1</fix>
-			</symbols>
-			<fans>
-				<serviceable type="bool">true</serviceable>
-			</fans>
-		</zkv1000>
 		<pitot-heat>
 			<serviceable type="bool">true</serviceable>
 			<active type="bool">false</active>

@@ -11,7 +11,7 @@ var G3X_flight_counter = 0;
 var G3X_flight_counter_stop = 0;
 var G3X_up_counter = 0;
 var G3X_down_counter = 0;
-var rotation=-0.01744;
+var alt_scale_factor = 0.472; #constant
 setprop("/engines/engine[0]/rpm", 0);
 setprop("/instrumentation/transponder/inputs/digitnbr", 1);
 setprop("/instrumentation/transponder/inputs/ident-btn", 0);
@@ -21,6 +21,63 @@ setprop("/instrumentation/G3X/stop", 0);
 setprop("/instrumentation/G3X/func", 1);
 setprop("/systems/electrical/volts", 0);
 setprop("/test", 0);
+
+var volts = props.globals.getNode("/systems/electrical/volts", 1);
+
+var comm1_act = props.globals.getNode("/instrumentation/comm/frequencies/selected-mhz", 1);
+var comm1_sby = props.globals.getNode("/instrumentation/comm/frequencies/standby-mhz", 1);
+
+var eng_rpm = props.globals.getNode("/engines/engine[0]/rpm", 1);
+var eng_mp  = props.globals.getNode("/engines/engine[0]/mp-inhg", 1);
+var eng_ff  = props.globals.getNode("/engines/engine/fuel-flow-gph", 1);
+var eng_ot  = props.globals.getNode("/engines/engine/oil-temperature-degf", 1);
+var eng_op  = props.globals.getNode("/engines/engine/oil-pressure-psi", 1);
+
+var hdg_bug = props.globals.getNode("/instrumentation/heading-indicator/heading-bug-deg", 1);
+var hdg_ind = props.globals.getNode("/instrumentation/heading-indicator/indicated-heading-deg", 1);
+
+var xpdr_code = props.globals.getNode("/instrumentation/transponder/id-code", 1);
+var xpdr_mode = props.globals.getNode("/instrumentation/transponder/inputs/knob-mode", 1);
+var xpdr_ident = props.globals.getNode("/instrumentation/transponder/ident", 1);
+
+var fuel_l = props.globals.getNode("/consumables/fuel/tank[0]/level-norm", 1);
+var fuel_r = props.globals.getNode("/consumables/fuel/tank[1]/level-norm", 1);
+
+var oat_c = props.globals.getNode("/environment/temperature-degc", 1);
+
+var ias = props.globals.getNode("/instrumentation/airspeed-indicator/indicated-speed-kt", 1);
+var ias10 = props.globals.getNode("/instrumentation/pfd/asi-10", 1);
+var ias100 = props.globals.getNode("/instrumentation/pfd/asi-100", 1);
+var tas = props.globals.getNode("/instrumentation/airspeed-indicator/true-speed-kt", 1);
+var gs  = props.globals.getNode("/velocities/groundspeed-kt", 1);
+
+var ai_roll = props.globals.getNode("orientation/roll-deg",1);
+var ai_pitch = props.globals.getNode("orientation/pitch-deg",1);
+var ai_ss = props.globals.getNode("/instrumentation/slip-skid-ball/indicated-slip-skid", 1);
+
+var alt_ft = props.globals.getNode("instrumentation/altimeter/indicated-altitude-ft", 1);
+var alt10000 = props.globals.getNode("/instrumentation/PFD/alt-10000", 1);
+var alt1000  = props.globals.getNode("/instrumentation/PFD/alt-1000", 1);
+var alt100   = props.globals.getNode("/instrumentation/PFD/alt-100", 1);
+var alt_bug  = props.globals.getNode("/instrumentation/PFD/altitude-bug", 1);
+var alt_qnh  = props.globals.getNode("/instrumentation/altimeter/setting-hpa", 1);
+
+var vs_fpm = props.globals.getNode("/instrumentation/vertical-speed-indicator/indicated-speed-fpm", 1);
+
+var wind_deg = props.globals.getNode("/environment/wind-from-heading-deg", 1);
+var wind_kt  = props.globals.getNode("/environment/wind-speed-kt", 1);
+
+var nav_in_range = props.globals.getNode("/instrumentation/nav[0]/in-range", 1);
+var loc_deflection = props.globals.getNode("/instrumentation/nav[0]/heading-needle-deflection-norm", 1);
+var nav_rad = props.globals.getNode("/instrumentation/nav/radials/target-radial-deg", 1);
+var gs_in_range  = props.globals.getNode("/instrumentation/nav[0]/gs-in-range", 1);
+var gs_deflection = props.globals.getNode("/instrumentation/nav[0]/gs-needle-deflection-norm", 1);
+
+var clock=[
+	props.globals.getNode("/instrumentation/clock/local-hour", 1),
+	props.globals.getNode("/instrumentation/clock/indicated-hour", 1),
+	props.globals.getNode("/instrumentation/clock/indicated-min", 1),
+	props.globals.getNode("/instrumentation/clock/indicated-sec", 1),];
 
 #roundToNearest function used for alt tape, thanks @Soitanen (737-800)!
 var roundToNearest = func(n, m) {
@@ -79,13 +136,12 @@ var canvas_G3X_base = {
 		return [];
 	},
 	update: func() {
-		if (getprop("/systems/electrical/volts") > 15 ) {
+		if (volts.getValue() > 15 ) {
 			G3X_only.page.show();
+			G3X_only.update();
 		} else {
 			G3X_only.page.hide();
 		}
-		
-		settimer(func me.update(), 0.02);
 	},
 };
 	
@@ -98,43 +154,40 @@ var canvas_G3X_only = {
 		return m;
 	},
 	getKeys: func() {
-		return ["COM1Act","COM1Sby","RPM","compass","compass.text","compass.text.1","compass.text.2","compass.text.3","compass.text.4","compass.text.5","compass.text.6","compass.text.7","compass.text.8","compass.text.9","compass.text.10","compass.text.11","compass.text.12","heading","XPDR.code","XPDR.mode","XPDR.ident","fuelL","fuelR","oil.F","oil.PSI","ff.GPH","radial","OAT","GS","TAS","asi.10","asi.100","asi.rollingdigits","asi.tape","horizon","fd","ball","altTapeScale","altTextHigh1","altTextHigh2","altTextHigh3","altTextHigh4","altTextHigh5","altTextHigh6","altTextHigh7","altTextHigh8","altTextHigh9","altTextHigh10",
-		"altTextLow1","altTextLow2","altTextLow3","altTextLow4","altTextLow5","altTextLow6","altTextLow7","altTextLow8","altTextLow9",
+		return ["COM1Act","COM1Sby","RPM","compass","compass.text","compass.text.1","compass.text.2","compass.text.3","compass.text.4","compass.text.5","compass.text.6","compass.text.7","compass.text.8","compass.text.9","compass.text.10","compass.text.11","compass.text.12","heading","XPDR.code","XPDR.mode","XPDR.ident","fuelL","fuelR","oil.F","oil.PSI","ff.GPH","radial","OAT","GS","TAS","asi.10","asi.100","asi.rollingdigits","asi.tape","horizon","fd","ball","altTapeScale","altTextHigh1","altTextHigh2","altTextHigh3","altTextHigh4","altTextHigh5","altTextHigh6","altTextHigh7","altTextHigh8","altTextHigh9","altTextHigh10","altTextLow1", "altTextLow2", "altTextLow3","altTextLow4","altTextLow5","altTextLow6","altTextLow7","altTextLow8","altTextLow9",
 		"altTextHighSmall2","altTextHighSmall3","altTextHighSmall4","altTextHighSmall5","altTextHighSmall6","altTextHighSmall7","altTextHighSmall8","altTextHighSmall9","altTextHighSmall10",
-		"altTextLowSmall1","altTextLowSmall2","altTextLowSmall3","altTextLowSmall4","altTextLowSmall5","altTextLowSmall6","altTextLowSmall7","altTextLowSmall8","altTextLowSmall9","alt.rollingdigits","alt.10000","alt.1000","alt.100","hdg.bug","hdg.bug.deg","alt.bug","alt.bug_small"];
+	"altTextLowSmall1","altTextLowSmall2","altTextLowSmall3","altTextLowSmall4","altTextLowSmall5","altTextLowSmall6","altTextLowSmall7","altTextLowSmall8","altTextLowSmall9","alt.rollingdigits","alt.10000","alt.1000","alt.100", "hdg.bug", "hdg.bug.deg", "alt.bug", "alt.bug_small", "RPM.needle", "manin", "manin.needle", "alt.bug_scale", "alt.setting", "lcl_time", "VS.pointer", "VS.value", "wind.speed", "wind.dir", "wind.pointer", "loc.scale", "loc.pointer", "gs.scale", "gs.pointer"];
 	},
 	update: func() {
+		me["COM1Act"].setText(sprintf(comm1_act.getValue()));
+		me["COM1Sby"].setText(sprintf(comm1_sby.getValue()));
 	
-		me["COM1Act"].setText(sprintf(getprop("/instrumentation/comm/frequencies/selected-mhz")));
-		me["COM1Sby"].setText(sprintf(getprop("/instrumentation/comm/frequencies/standby-mhz")));
-	
-		me["RPM"].setText(sprintf("%s", math.round(getprop("/engines/engine[0]/rpm") or 0)));
 		
-		var hdg_bug=getprop("/instrumentation/heading-indicator/heading-bug-deg") or 0;
-		var hdg=getprop("/instrumentation/heading-indicator/indicated-heading-deg") or 0;
-		var hdg_bug_diff=hdg-hdg_bug;
+		var hdg_bug_v = hdg_bug.getValue();
+		var hdg = hdg_ind.getValue();
+		var hdg_bug_diff = hdg - hdg_bug_v;
 		me["compass"].setRotation(hdg*-0.01744);
-		me["compass.text"].setRotation(hdg*rotation);
-		me["compass.text.1"].setRotation(hdg*(-rotation));
-		me["compass.text.2"].setRotation(hdg*(-rotation));
-		me["compass.text.3"].setRotation(hdg*(-rotation));
-		me["compass.text.4"].setRotation(hdg*(-rotation));
-		me["compass.text.5"].setRotation(hdg*(-rotation));
-		me["compass.text.6"].setRotation(hdg*(-rotation));
-		me["compass.text.7"].setRotation(hdg*(-rotation));
-		me["compass.text.8"].setRotation(hdg*(-rotation));
-		me["compass.text.9"].setRotation(hdg*(-rotation));
-		me["compass.text.10"].setRotation(hdg*(-rotation));
-		me["compass.text.11"].setRotation(hdg*(-rotation));
-		me["compass.text.12"].setRotation(hdg*(-rotation));
-		me["hdg.bug"].setRotation(hdg_bug_diff*(rotation));
-		me["heading"].setText(sprintf("%s", math.round(hdg)));
-		me["radial"].setText(sprintf("%s", math.round(getprop("/instrumentation/nav/radials/target-radial-deg") or 0)));
-		me["hdg.bug.deg"].setText(sprintf("%s", math.round(hdg_bug)));
+		me["compass.text"].setRotation(hdg*-D2R);
+		me["compass.text.1"].setRotation(hdg*(D2R));
+		me["compass.text.2"].setRotation(hdg*(D2R));
+		me["compass.text.3"].setRotation(hdg*(D2R));
+		me["compass.text.4"].setRotation(hdg*(D2R));
+		me["compass.text.5"].setRotation(hdg*(D2R));
+		me["compass.text.6"].setRotation(hdg*(D2R));
+		me["compass.text.7"].setRotation(hdg*(D2R));
+		me["compass.text.8"].setRotation(hdg*(D2R));
+		me["compass.text.9"].setRotation(hdg*(D2R));
+		me["compass.text.10"].setRotation(hdg*(D2R));
+		me["compass.text.11"].setRotation(hdg*(D2R));
+		me["compass.text.12"].setRotation(hdg*(D2R));
+		me["hdg.bug"].setRotation(hdg_bug_diff*(-D2R));
+		me["heading"].setText(sprintf("%3d", math.round(hdg)));
+		me["radial"].setText(sprintf("%3d", math.round(nav_rad.getValue())));
+		me["hdg.bug.deg"].setText(sprintf("%3d", math.round(hdg_bug_v)));
 		
 
-		me["XPDR.code"].setText(sprintf(getprop("/instrumentation/transponder/id-code")));
-		var XPDRmode=getprop("/instrumentation/transponder/inputs/knob-mode");
+		me["XPDR.code"].setText(sprintf("%4d",xpdr_code.getValue()));
+		var XPDRmode=xpdr_mode.getValue();
 		if(XPDRmode==0){
 			me["XPDR.mode"].setText("OFF");
 		}else if(XPDRmode==1){
@@ -149,35 +202,56 @@ var canvas_G3X_only = {
 			me["XPDR.mode"].setText("ALT");
 		}
 		
-		var XPDRident=getprop("/instrumentation/transponder/ident");
-		if(XPDRident==1){
+		if(xpdr_ident.getBoolValue()){
 			me["XPDR.ident"].setColor(0,1,0);
 		}else{
 			me["XPDR.ident"].setColor(0.5,0.5,0.5);
 		}
 		
-		me["ff.GPH"].setText(sprintf("%s", math.round(getprop("/engines/engine/fuel-flow-gph") or 0)));
-		me["oil.F"].setText(sprintf("%s", math.round(getprop("/engines/engine/oil-temperature-degf") or 0)));
-		me["oil.PSI"].setText(sprintf("%s", math.round(getprop("/engines/engine/oil-pressure-psi") or 0)));
+		#Engine Indicating
+		var rpm = eng_rpm.getValue();
+		me["RPM"].setText(sprintf("%4d", math.round(rpm)));
+		me["RPM.needle"].setRotation(rpm/2550*D2R*215.8);
+		var mp = eng_mp.getValue();
+		me["manin"].setText(sprintf("%3.1f", mp));
+		me["manin.needle"].setRotation(mp/40.0*D2R*190);
+		me["ff.GPH"].setText(sprintf("%4d", math.round(eng_ff.getValue())));
+		me["oil.F"].setText(sprintf("%3d", math.round(eng_ot.getValue())));
+		me["oil.PSI"].setText(sprintf("%3d", math.round(eng_op.getValue())));
 		
-		me["fuelL"].setTranslation((getprop("/consumables/fuel/tank[0]/level-norm") or 0)*102.3, 0);
-		me["fuelR"].setTranslation((getprop("/consumables/fuel/tank[1]/level-norm") or 0)*102.3, 0);
+		me["fuelL"].setTranslation(fuel_l.getValue()*102.3, 0);
+		me["fuelR"].setTranslation(fuel_r.getValue()*102.3, 0);
 		
-		me["OAT"].setText(sprintf("%s", math.round(getprop("/environment/temperature-degc") or 0)));
+		#Small info at the bottom of the screen
+		me["OAT"].setText(sprintf("%3d", math.round(oat_c.getValue())));
+		#Local time (LCL)
+		var local_hr=clock[0].getValue();
+		var ind_hr=clock[1].getValue();
+		var ind_min=clock[2].getValue();
+		var ind_sec=clock[3].getValue();
+		ind_sec=ind_sec-(ind_min*60)-(ind_hr*3600);
+		if(local_hr>12){
+			local_hr=local_hr-12;
+			var pod="pm";
+		}else{
+			var pod="am";
+		}
+		var local_time_string=local_hr~":"~ind_min~":"~ind_sec~pod;
+		me["lcl_time"].setText(local_time_string);
 		
 		#Airspeed Indicator
-		me["TAS"].setText(sprintf("%s", math.round(getprop("/instrumentation/airspeed-indicator/true-speed-kt") or 0)));
-		me["GS"].setText(sprintf("%s", math.round(getprop("/velocities/groundspeed-kt") or 0)));
+		me["TAS"].setText(sprintf("%3d", math.round(tas.getValue())));
+		me["GS"].setText(sprintf("%3d", math.round(gs.getValue())));
 		
-		var airspeed=getprop("/instrumentation/airspeed-indicator/indicated-speed-kt") or 0;
-		var asi10=getprop("/instrumentation/pfd/asi-10") or 0;
+		var airspeed=ias.getValue();
+		var asi10=ias10.getValue();
 		if(asi10!=0){
 			me["asi.10"].show();
 			me["asi.10"].setText(sprintf("%s", math.round((10*math.mod(asi10/10,1)))));
 		}else{
 			me["asi.10"].hide();
 		}
-		var asi100=getprop("/instrumentation/pfd/asi-100") or 0;
+		var asi100=ias100.getValue();
 		if(asi100!=0){
 			me["asi.100"].show();
 			me["asi.100"].setText(sprintf("%s", math.round(asi100)));
@@ -189,26 +263,15 @@ var canvas_G3X_only = {
 		
 		me["asi.tape"].setTranslation(0,math.round(airspeed*3.09));
 		
+	
 		#Attitude Indicator
+		me.h_trans.setTranslation(0,ai_pitch.getValue()*11.2);
+		me.h_rot.setRotation(-ai_roll.getValue()*D2R,me["horizon"].getCenter());
 		
-		var pitch = (getprop("orientation/pitch-deg") or 0);
-		var roll =  getprop("orientation/roll-deg") or 0;
-		#var x=math.sin(-3.14/180*roll)*pitch*5.6;
-		#var y=math.cos(-3.13/180*roll)*pitch*5.6;
-		
-		#me["horizon"].setTranslation(x,y);
-		#me["horizon"].setCenter(me["fd"].getCenter());
-		#me["horizon"].setRotation(roll*(rotation));
-		
-		#me["horizon"].setTranslation(0,math.round(getprop("/orientation/pitch-deg")*5.6));
-		
-		me.h_trans.setTranslation(0,pitch*11.2);
-		me.h_rot.setRotation(-roll*-0.5*rotation,me["horizon"].getCenter());
-		
-		me["ball"].setTranslation(getprop("/instrumentation/slip-skid-ball/indicated-slip-skid")*20,0);
+		me["ball"].setTranslation(ai_ss.getValue()*(-20),0);
 		
 		#Altitude Indicator
-		var alt = getprop("instrumentation/altimeter/indicated-altitude-ft");
+		var alt = alt_ft.getValue();
 		
 		me["altTapeScale"].setTranslation(0,(alt - roundToNearest(alt, 1000))*0.445);
 		
@@ -304,33 +367,83 @@ var canvas_G3X_only = {
 		me["altTextHigh9"].setText(sprintf("%s", altNumHigh));
 		me["altTextHigh10"].setText(sprintf("%s", altNumHigh));
 		
+		me["alt.rollingdigits"].setTranslation(0,math.round((10*math.mod(alt/100,1))*19.58, 0.1));		
 		
-		
-		var alt100=(getprop("/instrumentation/PFD/alt-1") or 0)/100;
-		me["alt.rollingdigits"].setTranslation(0,math.round((10*math.mod(alt100,1))*19.58, 0.1));		
-		
-		var alt10000=(getprop("/instrumentation/PFD/alt-10000") or 0);
-		if(alt10000!=0){
+		if(alt>=10000){
 			me["alt.10000"].show();
-			me["alt.10000"].setText(sprintf("%s", getprop("/instrumentation/PFD/alt-10000")));
+			me["alt.10000"].setText(sprintf("%2d", alt10000.getValue()));
 		}else{
 			me["alt.10000"].hide();
 		}
-		me["alt.1000"].setText(sprintf("%s", int(10*math.mod((getprop("/instrumentation/PFD/alt-1000") or 0)/10,1))));
-		me["alt.100"].setText(sprintf("%s", int(10*math.mod((getprop("/instrumentation/PFD/alt-100") or 0)/10,1))));
+		me["alt.1000"].setText(sprintf("%1d", int(10*math.mod(alt1000.getValue()/10,1))));
+		me["alt.100"].setText(sprintf("%1d", int(10*math.mod(alt100.getValue()/10,1))));
 		
-		var alt_bug=getprop("/instrumentation/PFD/altitude-bug");
-		var alt_bug_1000=getprop("/instrumentation/PFD/altitude-bug-1000") or 0;
+		var alt_bug_v=alt_bug.getValue();
+		var alt_bug_1000=math.floor(alt_bug_v/1000);
 		if(alt_bug_1000!=0){
 			me["alt.bug"].show();
 			me["alt.bug"].setText(sprintf("%s", alt_bug_1000));
 		}else{
 			me["alt.bug"].hide();
 		}
-		me["alt.bug_small"].setText(sprintf("%s", int(1000*math.mod(alt_bug/1000,1))));
+		me["alt.bug_small"].setText(sprintf("%s", int(1000*math.mod(alt_bug_v/1000,1))));
+		
+		#Alt bug on the scale
+		var alt_bug_diff = alt_bug_v - alt;
+		if(alt_bug_diff>230){
+			me["alt.bug_scale"].setTranslation(0,230*-alt_scale_factor);
+		}else if(alt_bug_diff<-230){
+			me["alt.bug_scale"].setTranslation(0,230*alt_scale_factor);
+		}else{
+			me["alt.bug_scale"].setTranslation(0,alt_bug_diff*-alt_scale_factor);
+		}
+		
+		me["alt.setting"].setText(sprintf("%4d", math.round(alt_qnh.getValue())));
 		
 		
-		settimer(func me.update(), 0.02);
+		#Vertical Speed Indicator
+		var vs=vs_fpm.getValue();
+		if(math.round(vs,10)==0){
+			me["VS.value"].hide();
+		}else{
+			me["VS.value"].show();
+			me["VS.value"].setText(sprintf("%+5d", math.round(vs,10)));
+		}
+		
+		if(vs<=1000 and vs>=-1000){
+			me["VS.pointer"].setTranslation(0,-vs*0.069);
+		}else if(vs<=2000 and vs>1000){
+			me["VS.pointer"].setTranslation(0,-69-(vs-1000)*0.024);
+		}else if(vs>=-2000 and vs<-1000){
+			me["VS.pointer"].setTranslation(0,69-(vs+1000)*0.024);
+		}else if(vs>2000){
+			me["VS.pointer"].setTranslation(0,-93);
+		}else if(vs<-2000){
+			me["VS.pointer"].setTranslation(0,93);
+		}
+		
+		#Wind indicator
+		var wind_dir = wind_deg.getValue();
+		var wind_spd = wind_kt.getValue();
+		var wind_rel = wind_dir - hdg;
+		me["wind.pointer"].setRotation(wind_rel*D2R);
+		me["wind.dir"].setText(sprintf("%03d", math.round(wind_dir)));
+		me["wind.speed"].setText(sprintf("%3d", math.round(wind_spd)));
+		
+		#ILS
+		if(nav_in_range.getBoolValue()){
+			me["loc.scale"].show();
+			me["loc.pointer"].setTranslation(loc_deflection.getValue()*63, 0);
+			if(gs_in_range.getBoolValue()){
+				me["gs.scale"].show();
+				me["gs.pointer"].setTranslation(0, gs_deflection.getValue()*-63);
+			}else{
+				me["gs.scale"].hide();
+			}
+		}else{
+			me["loc.scale"].hide();
+			me["gs.scale"].hide();
+		}
 	},
 };
 
@@ -344,6 +457,9 @@ setlistener("/instrumentation/transponder/inputs/ident-btn-2", func{
 	settimer(identoff, 18);
 });
 
+var update_G3X = maketimer(0.02, func() {
+	canvas_G3X_base.update();
+	} );
 
 setlistener("sim/signals/fdm-initialized", func {
 	G3X_display = canvas.new({
@@ -357,8 +473,7 @@ setlistener("sim/signals/fdm-initialized", func {
 
 	G3X_only = canvas_G3X_only.new(groupOnly, "Aircraft/SR22T/Models/Interior/Instruments/G3X/G3X.svg");
 
-	G3X_only.update();
-	canvas_G3X_base.update();
+	update_G3X.start();
 });
 
 var showG3X = func {
