@@ -321,6 +321,7 @@
 				<alt1 type="bool">0</alt1>
 				<alt2 type="bool">0</alt2>
 			</engine>
+			<key type="bool">false</key>
 		</engines>
 	</controls>
 	<sr22t>
