@@ -375,7 +375,7 @@
 		<interpolation>
 			<entry>
 				<ind> 0 </ind>
-				<dep>  0.0 </dep>
+				<dep> 0 </dep>
 			</entry>
 			<entry>
 				<ind> 1 </ind>
@@ -401,7 +401,7 @@
 		<interpolation>
 			<entry>
 				<ind> 0 </ind>
-				<dep> 0.0 </dep>
+				<dep> -10 </dep>
 			</entry>
 			<entry>
 				<ind> 1 </ind>
@@ -413,7 +413,7 @@
 			<z-m>-0.601707</z-m>
 		</center>
 		<axis>
-			<x> 1 </x>
+			<x>-1 </x>
 			<y> 0 </y>
 			<z> 0 </z>
 		</axis>
@@ -426,7 +426,7 @@
 		<interpolation>
 			<entry>
 				<ind> 0 </ind>
-				<dep> 0.0 </dep>
+				<dep> -10 </dep>
 			</entry>
 			<entry>
 				<ind> 1 </ind>

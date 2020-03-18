@@ -1,4 +1,3 @@
-
 var flaps_cmd = "/controls/flight/flaps-cmd";
 
 var flapsDown = func(i){

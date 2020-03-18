@@ -263,7 +263,7 @@
 			<repeatable>false</repeatable>
 			<binding>
 				<command>property-toggle</command>
-				<property>controls/lighting/landing-lights</property>
+				<property>controls/lighting/landing-light</property>
 			</binding>
 			<binding>
 				<command>property-toggle</command>
@@ -274,7 +274,7 @@
 	<animation>
 		<type>rotate</type>
 		<object-name>land_switch</object-name>
-		<property>controls/lighting/landing-lights-pos</property>
+		<property>controls/lighting/landing-light-pos</property>
 		<factor> -30 </factor>
 		<center>
 			<x-m> -1.94728 </x-m>
@@ -473,6 +473,100 @@
 	</animation>
 	
 	
+	<!-- Fuel Pump Switch -->
+	<animation>
+		<type>pick</type>
+		<object-name>fuel_pump</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-cycle</command>
+				<property>controls/fuel/boost-pump</property>
+				<value>1</value>
+				<value>-1</value>
+				<value>0</value>
+			</binding>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+		</action>
+		<action>
+			<button>1</button>
+			<repeatable>false</repeatable>
+			<binding>
+				<command>property-cycle</command>
+				<property>controls/fuel/boost-pump</property>
+				<value>-1</value>
+				<value>1</value>
+				<value>0</value>
+			</binding>
+			<binding>
+				<command>property-toggle</command>
+				<property>sim/model/click</property>
+			</binding>
+		</action>
+	</animation>
+	<animation>
+		<type>rotate</type>
+		<object-name>fuel_pump</object-name>
+		<property>controls/fuel/boost-pump-pos</property>
+		<factor> -18 </factor>
+		<center>
+			<x-m> -1.53685 </x-m>
+			<z-m> -0.18417 </z-m>
+		</center>
+		<axis>
+			<x> 0 </x>
+			<y> 1 </y>
+			<z> 0 </z>
+		</axis>
+	</animation>
+	
+	<!-- Fuel Selector -->
+	<animation>
+		<type>knob</type>
+		<object-name>fuel_selector</object-name>
+		<property>controls/fuel/tank-selector-pos</property>
+		<interpolation>
+			<entry>
+				<ind> 0 </ind>
+				<dep> -180 </dep>
+			</entry>
+			<entry>
+				<ind> 1 </ind>
+				<dep> -75</dep>
+			</entry>
+			<entry>
+				<ind> 2 </ind>
+				<dep> 0</dep>
+			</entry>
+			<entry>
+				<ind> 3 </ind>
+				<dep> 105</dep>
+			</entry>
+		</interpolation>
+		<center>
+			<x-m> -1.42859 </x-m>
+			<y-m> -0.01523 </y-m>
+		</center>
+		<axis>
+			<x> 0 </x>
+			<y> 0 </y>
+			<z>-1 </z>
+		</axis>
+		<action>
+			<binding>
+				<command>property-adjust</command>
+				<property>controls/fuel/tank-selector</property>
+				<min>0</min>
+				<max>3</max>
+				<factor>1</factor>
+			</binding>
+		</action>
+	</animation>
+		
 	
 	<!--Flaps Lever-->
 	<animation>

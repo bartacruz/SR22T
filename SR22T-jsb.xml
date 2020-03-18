@@ -8,31 +8,9 @@
 		<description> Models a SR22T. </description>
 	</fileheader>
 	<!--
-  File:     SR22T.xml
-  Inputs:
-    name:          SR22T
-    type:          light single
-    max weight:    3600.765 lb
-    wing span:     25.98552 ft
-    length:        131.24 ft
-    wing area:     144.917904982 sq-ft
-    gear type:     tricycle
-    castering:     
-    retractable?:  no
-    # engines:     1
-    engine type:   piston
-    engine layout: forward fuselage
-    yaw damper?    yes
-  Outputs:
-    wing loading:  24.85 lb/sq-ft
-    payload:       719.5 lbs
-    CL-alpha:      5 per radian
-    CL-0:          0.25
-    CL-max:        1.4
-    CD-0:          0.028
-    K:             0.04
-
--->
+		References:
+			[1]	Pilot Operating Handbook (EASA)	http://servicecenters.cirrusdesign.com/tech_pubs/SR2X/pdf/POH/SR22-03E/pdf/Online13772-003E.pdf
+	-->
 	<metrics>
 		<wingarea unit="FT2">  144.92 </wingarea>
 		<wingspan unit="FT">   25.99 </wingspan>
@@ -143,13 +121,13 @@
 			<location unit="M">
 				<x> -0.949</x>
 				<y> -1.646 </y>
-				<z>-1.362</z>
+				<z>-1.47</z>
 			</location>
 			<static_friction>  0.80 </static_friction>
 			<dynamic_friction> 0.50 </dynamic_friction>
 			<rolling_friction> 0.02 </rolling_friction>
-			<spring_coeff unit="LBS/FT">       3600.77 </spring_coeff>
-			<damping_coeff unit="LBS/FT/SEC">  1800.38 </damping_coeff>
+			<spring_coeff unit="LBS/FT">       4800 </spring_coeff>
+			<damping_coeff unit="LBS/FT/SEC">  2500 </damping_coeff>
 			<max_steer unit="DEG">0</max_steer>
 			<brake_group>LEFT</brake_group>
 			<retractable>0</retractable>
@@ -158,31 +136,27 @@
 			<location unit="M">
 				<x> -0.949</x>
 				<y> 1.646 </y>
-				<z>-1.362</z>
+				<z>-1.47</z>
 			</location>
 			<static_friction>  0.80 </static_friction>
 			<dynamic_friction> 0.50 </dynamic_friction>
 			<rolling_friction> 0.02 </rolling_friction>
-			<spring_coeff unit="LBS/FT">       3600.77 </spring_coeff>
-			<damping_coeff unit="LBS/FT/SEC">  1800.38 </damping_coeff>
+			<spring_coeff unit="LBS/FT">       4800 </spring_coeff>
+			<damping_coeff unit="LBS/FT/SEC">  2500 </damping_coeff>
 			<max_steer unit="DEG">0</max_steer>
 			<brake_group>RIGHT</brake_group>
 			<retractable>0</retractable>
 		</contact>
-		<contact type="BOGEY" name="TAIL_SKID">
+		<contact type="STRUCTURE" name="TAIL_SKID">
 			<location unit="M">
 				<x> 3.12752</x>
 				<y> 0.0 </y>
 				<z>-0.24184</z>
 			</location>
-			<static_friction>  0.80 </static_friction>
-			<dynamic_friction> 0.50 </dynamic_friction>
-			<rolling_friction> 0.02 </rolling_friction>
-			<spring_coeff unit="LBS/FT">       3600.77 </spring_coeff>
-			<damping_coeff unit="LBS/FT/SEC">  1800.38 </damping_coeff>
-			<max_steer unit="DEG">0</max_steer>
-			<brake_group>RIGHT</brake_group>
-			<retractable>0</retractable>
+			<static_friction>  1.00 </static_friction>
+			<dynamic_friction> 1.00 </dynamic_friction>
+			<spring_coeff unit="LBS/FT">       3600 </spring_coeff>
+			<damping_coeff unit="LBS/FT/SEC">  2000 </damping_coeff>
 		</contact>
 		<contact type="STRUCTURE" name="LEFT_WING">
 			<location unit="M">
@@ -192,8 +166,8 @@
 			</location>
 			<static_friction>  1.00 </static_friction>
 			<dynamic_friction> 1.00 </dynamic_friction>
-			<spring_coeff unit="LBS/FT">       3600.77 </spring_coeff>
-			<damping_coeff unit="LBS/FT/SEC">  3600.77 </damping_coeff>
+			<spring_coeff unit="LBS/FT">       3600 </spring_coeff>
+			<damping_coeff unit="LBS/FT/SEC">  2000 </damping_coeff>
 		</contact>
 		<contact type="STRUCTURE" name="RIGHT_WING">
 			<location unit="M">
@@ -203,8 +177,8 @@
 			</location>
 			<static_friction>  1.00 </static_friction>
 			<dynamic_friction> 1.00 </dynamic_friction>
-			<spring_coeff unit="LBS/FT">       3600.77 </spring_coeff>
-			<damping_coeff unit="LBS/FT/SEC">  3600.77 </damping_coeff>
+			<spring_coeff unit="LBS/FT">       3600 </spring_coeff>
+			<damping_coeff unit="LBS/FT/SEC">  2000 </damping_coeff>
 		</contact>
 	</ground_reactions>
 	<propulsion>
@@ -219,7 +193,7 @@
 				<roll>  0.00 </roll>
 				<yaw>   0.00 </yaw>
 			</orient>
-			<feed>0</feed>
+			<feed>2</feed>
 			<thruster file="PHC-J3Y1F">
 				<sense> 1 </sense>
 				<location unit="M">
@@ -253,9 +227,20 @@
 			<capacity unit="LBS"> 284.445  </capacity>
 			<contents unit="LBS"> 133.23 </contents>
 		</tank>
+		<!-- Collector Tank, located at the engine -->
+		<tank type="FUEL" number="2">
+			<location unit="M">
+				<x> -2.8 </x>
+				<y>  0.0 </y>
+				<z> -0.1 </z>
+			</location>
+			<capacity unit="LBS"> 1 </capacity>
+			<contents unit="LBS"> 0.6 </contents>
+		</tank>
 	</propulsion>
 	<system file="sr22t-propeller"/>
 	<system file="sr22t-fcs"/>
+	<system file="sr22t-fuel"/>
 	<flight_control name="FCS: SR22T">
 		<channel name="Pitch">
 			<summer name="Pitch Trim Sum">

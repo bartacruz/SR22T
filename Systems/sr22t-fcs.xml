@@ -56,4 +56,77 @@
 			<output>/sr22t/doors/baggage-pos-norm</output>
 		</lag_filter>
 	</channel>
+	
+	<channel name="Switches">
+		<lag_filter>
+			<input>/controls/electric/battery1-switch</input>
+			<c1>8</c1>
+			<output>/controls/electric/battery1-switch-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/electric/battery2-switch</input>
+			<c1>8</c1>
+			<output>/controls/electric/battery2-switch-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/engines/engine[0]/alt1</input>
+			<c1>8</c1>
+			<output>/controls/engines/engine[0]/alt1-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/engines/engine[0]/alt2</input>
+			<c1>8</c1>
+			<output>/controls/engines/engine[0]/alt2-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/electric/avionics-switch</input>
+			<c1>8</c1>
+			<output>/controls/electric/avionics-switch-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/engines/engine[0]/starter</input>
+			<c1>8</c1>
+			<output>/controls/engines/engine[0]/starter-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/engines/engine[0]/magnetos</input>
+			<c1>8</c1>
+			<output>/controls/engines/engine[0]/magnetos-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/lighting/landing-light</input>
+			<c1>8</c1>
+			<output>/controls/lighting/landing-light-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/lighting/strobe-lights</input>
+			<c1>8</c1>
+			<output>/controls/lighting/strobe-lights-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/lighting/nav-lights</input>
+			<c1>8</c1>
+			<output>/controls/lighting/nav-lights-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/anti-ice/pitot-heat</input>
+			<c1>8</c1>
+			<output>/controls/anti-ice/pitot-heat-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/fuel/boost-pump</input>
+			<c1>8</c1>
+			<output>/controls/fuel/boost-pump-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/fuel/tank-selector</input>
+			<c1>8</c1>
+			<output>/controls/fuel/tank-selector-pos</output>
+		</lag_filter>
+		<lag_filter>
+			<input>/controls/flight/flaps-cmd</input>
+			<c1>8</c1>
+			<output>/controls/flight/flaps-cmd-pos</output>
+		</lag_filter>
+	</channel>
 </system>

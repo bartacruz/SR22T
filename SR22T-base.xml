@@ -296,221 +296,33 @@
 		</radar>
 	</instrumentation>
 	<controls>
-		<engines>
-			<key type="bool">0</key>
-			<engine>
-				<magnetos-pos type="double">0</magnetos-pos>
-				<starter-pos type="double">0</starter-pos>
-			</engine>
-		</engines>
-		<books>
-			<maps>
-				<visible type="bool">0</visible>
-				<coords>
-					<lon type="long">-500</lon>
-					<lat type="long">-500</lat>
-				</coords>
-			</maps>
-		</books>
-		<gear>
-			<brake-parking type="double">1</brake-parking>
-			<brake-parking-pos type="double">1</brake-parking-pos>
-		</gear>
 		<fuel>
-			<tank n="0">
-				<position type="double">2</position>
-				<lock type="double">1</lock>
-			</tank>
-			<tank n="1">
-				<position type="double">2</position>
-				<lock type="double">1</lock>
-			</tank>
+			<boost-pump type="int">0</boost-pump>	<!-- 0=OFF 1=BOOST -1=HIGH BOOST/PRIME -->
+			<tank-selector type="int">1</tank-selector>	<!-- 0=OFF (LEFT SIDE) 1=LEFT 2=RIGHT 3=OFF (RIGHT SIDE)-->
 		</fuel>
-		<switches>
-			<defrost-lever>0</defrost-lever>
-			<cabinheat-lever>0</cabinheat-lever>
-			<emerhoriz-lever>0</emerhoriz-lever>
-			<emerhoriz-lock>0</emerhoriz-lock>
-			<master-switch type="bool">0</master-switch>
-			<masteravionic-switch type="bool">0</masteravionic-switch>
-			<landinglight-switch type="bool">0</landinglight-switch>
-			<taxilight-switch type="bool">0</taxilight-switch>
-			<strobelight-switch type="bool">0</strobelight-switch>
-			<positionlight-switch type="bool">0</positionlight-switch>
-			<left-alt-switch type="bool">0</left-alt-switch>
-			<right-alt-switch type="bool">0</right-alt-switch>
-			<left-master-engine-switch type="bool">0</left-master-engine-switch>
-			<right-master-engine-switch type="bool">0</right-master-engine-switch>
-			<geardown>1</geardown>
-			<deice>
-				<speed>-1</speed>
-				<icelight>0</icelight>
-			</deice>
-			<flaplever-switch>0</flaplever-switch>
-			<ecu n="0">
-				<switch type="bool">1</switch>
-			</ecu>
-			<ecu n="1">
-				<switch type="bool">1</switch>
-			</ecu>
-			<doors>
-				<door n="0">
-					<locked type="bool">1</locked>
-				</door>
-				<door n="1">
-					<locked type="bool">0</locked>
-				</door>
-			</doors>
-			<mixer>
-				<com1 type="bool">0</com1>
-				<com2 type="bool">0</com2>
-				<nav1 type="bool">0</nav1>
-				<nav2 type="bool">0</nav2>
-				<adf type="bool">0</adf>
-				<mkrmute type="bool">0</mkrmute>
-			</mixer>
-			<elt type="int">0</elt>
-		</switches>
 		<lighting>
-			<elt type="int">0</elt>
-			<antiicelight type="bool">0</antiicelight>
 			<nav-lights type="bool">0</nav-lights>
-			<strobe type="bool">0</strobe>
-			<taxi-light type="bool">0</taxi-light>
-			<flood-lights type="bool">0</flood-lights>
-			<landing-lights type="bool">0</landing-lights>
-			<instr-lights type="bool">0</instr-lights>
-			<gearwrn type="bool">0</gearwrn>
+			<strobe-lights type="bool">0</strobe-lights>
+			<landing-light type="bool">0</landing-light>
 		</lighting>
-		<deice>
-			<mode type="int">-1</mode>
-		</deice>
 		<electric>
+			<battery1-switch type="bool">0</battery1-switch>
+			<battery2-switch type="bool">0</battery2-switch>
 			<avionics-switch type="bool">0</avionics-switch>
 			<avionics-switch-pos type="double">0</avionics-switch-pos>
-			<circuitbreaker>
-				<com1>1</com1>
-				<gpsnav1>1</gpsnav1>
-				<xpcom>1</xpcom>
-				<enginstr>1</enginstr>
-				<pitot>1</pitot>
-				<deice>1</deice>
-				<taxilight>1</taxilight>
-				<oxy>1</oxy>
-				<pfd>1</pfd>
-				<adc>1</adc>
-				<ahrs>1</ahrs>
-				<gearwrn>1</gearwrn>
-				<gearctrl>1</gearctrl>
-				<mfd>1</mfd>
-				<ah>1</ah>
-				<stallwrn>1</stallwrn>
-				<flap>1</flap>
-				<landinglight>1</landinglight>
-				<instlight>1</instlight>
-				<fans>1</fans>
-				<avionicbus>1</avionicbus>
-				<avionicctrl>1</avionicctrl>
-				<com2>1</com2>
-				<gpsnav2>1</gpsnav2>
-				<audio>1</audio>
-				<autopilot>1</autopilot>
-				<datalink>0</datalink>
-				<wx500>0</wx500>
-				<adf>1</adf>
-				<dme>1</dme>
-				<wxrdr>0</wxrdr>
-				<leftecubus>1</leftecubus>
-				<leftecub>1</leftecub>
-				<leftecua>1</leftecua>
-				<leftalt>1</leftalt>
-				<leftbat>1</leftbat>
-				<rightbat>1</rightbat>
-				<rightalt>1</rightalt>
-				<rightecubus>1</rightecubus>
-				<rightecub>1</rightecub>
-				<rightecua>1</rightecua>
-			</circuitbreaker>
-			<alimentation>
-				<gear type="bool">0</gear>
-				<flap type="bool">0</flap>
-				<stallwrn type="bool">0</stallwrn>
-				<deice type="bool">0</deice>
-				<engines>
-					<engine n="0">
-						<!--<propeller-pitch-fadec type="double">1</propeller-pitch-fadec>
-						<mixture-fadec type="double">1</mixture-fadec>-->
-						<starter type="bool">0</starter>
-						<ecus>
-							<ecu n="0">
-								<serviceable type="bool">0</serviceable>
-								<selected type="bool">0</selected>
-							</ecu>
-							<ecu n="1">
-								<serviceable type="bool">0</serviceable>
-								<selected type="bool">0</selected>
-							</ecu>
-						</ecus>
-					</engine>
-					<engine n="1">
-						<!--<propeller-pitch-fadec type="double">1</propeller-pitch-fadec>
-						<mixture-fadec type="double">1</mixture-fadec>-->
-						<starter type="bool">0</starter>
-						<ecus>
-							<ecu n="0">
-								<serviceable type="bool">0</serviceable>
-								<selected type="bool">0</selected>
-								<test-ecu type="bool">0</test-ecu>
-							</ecu>
-							<ecu n="1">
-								<serviceable type="bool">0</serviceable>
-								<selected type="bool">0</selected>
-								<test-ecu type="bool">0</test-ecu>
-							</ecu>
-						</ecus>
-					</engine>
-				</engines>
-			</alimentation>
 		</electric>
-		<pilot>
-			<visible type="bool">1</visible>
-		</pilot>
-		<rudders>
-			<rudder n="0">
-				<position type="double">0.45</position>
-				<locked type="bool">1</locked>
-			</rudder>
-			<rudder n="1">
-				<position type="double">0</position>
-				<locked type="bool">1</locked>
-			</rudder>
-		</rudders>
 		<flight>
 			<elevator-trim>0.0</elevator-trim>
 			<!--<rudder-trim>0.085875</rudder-trim>-->
-			<wing_destroyed type="double">0</wing_destroyed>
+			<flaps-cmd type="float">0.0</flaps-cmd>
 		</flight>
+		<engines>
+			<engine n="0">
+				<alt1 type="bool">0</alt1>
+				<alt2 type="bool">0</alt2>
+			</engine>
+		</engines>
 	</controls>
-	<engines>
-		<engine n="0">
-			<oil-pressure-psi type="double">1</oil-pressure-psi>
-			<coolant-temperature-degc type="double">19</coolant-temperature-degc>
-			<fuel-temperature-degc type="double">20</fuel-temperature-degc>
-		</engine>
-		<engine n="1">
-			<oil-pressure-psi type="double">1</oil-pressure-psi>
-			<coolant-temperature-degc type="double">19</coolant-temperature-degc>
-			<fuel-temperature-degc type="double">20</fuel-temperature-degc>
-		</engine>
-	</engines>
-	<systems>
-		<electrical>
-			<bus>
-				<left-main-bus-amp type="double">75.0</left-main-bus-amp>
-				<right-main-bus-amp type="double">40.0</right-main-bus-amp>
-			</bus>
-		</electrical>
-	</systems>
 	<sr22t>
 		<doors>
 			<left-input type="bool">0</left-input>
@@ -521,23 +333,18 @@
 	<consumables>
 		<fuel>
 			<tank n="0">
-				<name>Left wing</name>
+				<name>Left Wing</name>
 				<selected type="bool">true</selected>
 			</tank>
 			<tank n="1">
-				<name>Right wing</name>
+				<name>Right Wing</name>
 				<selected type="bool">true</selected>
 			</tank>
-			<fuel-gest>
-				<fuel-remaining type="double">50.0</fuel-remaining>
-				<fuel-used type="double">0.0</fuel-used>
-				<endurance-hours type="string"/>
-				<endurance-minutes type="string"/>
-				<range type="double">0.0</range>
-			</fuel-gest>
+			<tank n="2">
+				<name>Collector Tank</name>
+				<selected type="bool">true</selected>
+			</tank>
 		</fuel>
-		<!--1 unite par seconde en mode normal = 2h30, 2.5 en mode high = 1h00, et en max 5 done 30mn-->
-		<deice type="double">9000.0</deice>
 	</consumables>
 	<input>
 		<keyboard include="Nasal/keyboard.xml"/>
@@ -550,17 +357,9 @@
 			<file>Nasal/controls_override.nas</file>
 		</controls>
 		<sr22t>
-			<file>Nasal/general.nas</file>
-			<file>Nasal/canvas_general.nas</file>
 			<file>Nasal/light.nas</file>
 			<file>Nasal/sr22t.nas</file>
 			<file>Nasal/electrical.nas</file>
-			<file>Nasal/audio.nas</file>
-			<file>Nasal/maps.nas</file>
-			<file>Nasal/fuel.nas</file>
-			<file>Nasal/alarms.nas</file>
-			<file>Nasal/icing.nas</file>
-			<file>Nasal/switches.nas</file>
 		</sr22t>
 		<canvas_g3x>
 			<file>Aircraft/SR22T/Models/Interior/Instruments/G3X/G3X.nas</file>
