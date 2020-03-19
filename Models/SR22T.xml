@@ -345,6 +345,7 @@
 		<object-name>wheelfairingF</object-name>
 		<object-name>gearstabF</object-name>
 		<object-name>gearfairingF</object-name>
+		<object-name>tug</object-name>
 		<property>gear/gear[0]/compression-norm</property>
 		<interpolation>
 			<entry>
@@ -371,6 +372,7 @@
 		<type>rotate</type>
 		<object-name>wheelF</object-name>
 		<object-name>wheelfairingF</object-name>
+		<object-name>tug</object-name>
 		<property>gear/gear[0]/compression-norm</property>
 		<interpolation>
 			<entry>
@@ -405,7 +407,7 @@
 			</entry>
 			<entry>
 				<ind> 1 </ind>
-				<dep> 30</dep>
+				<dep>25</dep>
 			</entry>
 		</interpolation>
 		<center>
@@ -430,7 +432,7 @@
 			</entry>
 			<entry>
 				<ind> 1 </ind>
-				<dep> 30</dep>
+				<dep>25</dep>
 			</entry>
 		</interpolation>
 		<center>
@@ -448,6 +450,7 @@
 		<type>rotate</type>
 		<object-name>wheelF</object-name>
 		<object-name>wheelfairingF</object-name>
+		<object-name>tug</object-name>
 		<property>gear/gear[0]/steering-norm</property>
 		<factor> -360 </factor>
 		<axis>
@@ -759,12 +762,13 @@
 		</condition>
 	</animation>
 	<model>
-		<name>Pushback</name>
-		<path>Pushback/pushback.xml</path>
+		<name>tug</name>
+		<path>Tug/tug.xml</path>
 		<offsets>
-			<x-m>-3.06433</x-m>
+			<x-m>-3.00529</x-m>
 			<y-m>0</y-m>
-			<z-m>-1.14043</z-m>
+			<z-m>-1.18911</z-m>
+			<pitch-deg>3.5</pitch-deg>
 		</offsets>
 	</model>
 </PropertyList>

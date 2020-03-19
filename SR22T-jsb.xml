@@ -130,7 +130,7 @@
 			<location unit="M">
 				<x> -0.949</x>
 				<y> -1.646 </y>
-				<z>-1.47</z>
+				<z>-1.465</z>
 			</location>
 			<static_friction>  0.80 </static_friction>
 			<dynamic_friction> 0.50 </dynamic_friction>
@@ -145,7 +145,7 @@
 			<location unit="M">
 				<x> -0.949</x>
 				<y> 1.646 </y>
-				<z>-1.47</z>
+				<z>-1.465</z>
 			</location>
 			<static_friction>  0.80 </static_friction>
 			<dynamic_friction> 0.50 </dynamic_friction>
@@ -250,6 +250,7 @@
 	<system file="sr22t-propeller"/>
 	<system file="sr22t-fcs"/>
 	<system file="sr22t-fuel"/>
+	<system file="sr22t-pushback"/>
 	<flight_control name="FCS: SR22T">
 		<channel name="Pitch">
 			<summer name="Pitch Trim Sum">
@@ -710,5 +711,17 @@
 		</axis>
 	</aerodynamics>
 	<external_reactions>
- </external_reactions>
+		<force name="pushback" frame="BODY" unit="N">
+			<location unit="M"> <!-- front gear -->
+				<x> -3.0 </x>
+				<y>   0.00 </y>
+				<z> -1.36 </z>
+			</location>
+			<direction>
+				<x>1</x>
+				<y>0</y>
+				<z>0</z>
+			</direction>
+		</force>
+	</external_reactions>
 </fdm_config>
