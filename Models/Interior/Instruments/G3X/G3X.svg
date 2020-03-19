@@ -139,9 +139,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8.0000003"
-     inkscape:cx="597.71702"
-     inkscape:cy="386.41753"
+     inkscape:zoom="0.50000002"
+     inkscape:cx="631.86851"
+     inkscape:cy="181.75794"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -1618,8 +1618,8 @@
        id="rect5183"
        width="211"
        height="211"
-       x="471.25"
-       y="807.36218"
+       x="467.125"
+       y="804.36218"
        ry="105.5" />
     <rect
        style="opacity:1;fill:#4a4a4a;fill-opacity:0.62745098;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -5526,11 +5526,12 @@
          y="1017.3715"
          style="font-size:12.06542492px;line-height:1.25;stroke-width:0.30163565px">EGT  °F</tspan></text>
     <text
-       id="text1915"
+       id="egt.degf"
        y="1017.3715"
        x="90.21582"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.30163565px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       xml:space="preserve"><tspan
+       xml:space="preserve"
+       inkscape:label="#text1915"><tspan
          style="font-size:12.06542492px;line-height:1.25;stroke-width:0.30163565px"
          y="1017.3715"
          x="90.21582"

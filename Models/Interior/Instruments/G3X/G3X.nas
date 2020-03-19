@@ -1,8 +1,5 @@
-# Garmin GTX 327 by D-ECHO based on
-
-# A3XX Lower ECAM Canvas
-# Joshua Davidson (it0uchpods)
-#######################################
+# Garmin G3X Simulation
+# reference: https://support.garmin.com/en-US/?partNumber=G3X-TCERT-05&tab=manuals
 
 var G3X_only = nil;
 var G3X_display = nil;
@@ -27,11 +24,13 @@ var volts = props.globals.getNode("/systems/electrical/volts", 1);
 var comm1_act = props.globals.getNode("/instrumentation/comm/frequencies/selected-mhz", 1);
 var comm1_sby = props.globals.getNode("/instrumentation/comm/frequencies/standby-mhz", 1);
 
-var eng_rpm = props.globals.getNode("/engines/engine[0]/rpm", 1);
-var eng_mp  = props.globals.getNode("/engines/engine[0]/mp-inhg", 1);
-var eng_ff  = props.globals.getNode("/engines/engine/fuel-flow-gph", 1);
-var eng_ot  = props.globals.getNode("/engines/engine/oil-temperature-degf", 1);
-var eng_op  = props.globals.getNode("/engines/engine/oil-pressure-psi", 1);
+var engine  = props.globals.getNode("/engines/engine[0]", 1);
+var eng_rpm = engine.getNode("rpm", 1);
+var eng_mp  = engine.getNode("mp-inhg", 1);
+var eng_ff  = engine.getNode("fuel-flow-gph", 1);
+var eng_ot  = engine.getNode("oil-temperature-degf", 1);
+var eng_op  = engine.getNode("oil-pressure-psi", 1);
+var eng_egt = engine.getNode("egt-degf", 1);
 
 var hdg_bug = props.globals.getNode("/instrumentation/heading-indicator/heading-bug-deg", 1);
 var hdg_ind = props.globals.getNode("/instrumentation/heading-indicator/indicated-heading-deg", 1);
@@ -156,7 +155,7 @@ var canvas_G3X_only = {
 	getKeys: func() {
 		return ["COM1Act","COM1Sby","RPM","compass","compass.text","compass.text.1","compass.text.2","compass.text.3","compass.text.4","compass.text.5","compass.text.6","compass.text.7","compass.text.8","compass.text.9","compass.text.10","compass.text.11","compass.text.12","heading","XPDR.code","XPDR.mode","XPDR.ident","fuelL","fuelR","oil.F","oil.PSI","ff.GPH","radial","OAT","GS","TAS","asi.10","asi.100","asi.rollingdigits","asi.tape","horizon","fd","ball","altTapeScale","altTextHigh1","altTextHigh2","altTextHigh3","altTextHigh4","altTextHigh5","altTextHigh6","altTextHigh7","altTextHigh8","altTextHigh9","altTextHigh10","altTextLow1", "altTextLow2", "altTextLow3","altTextLow4","altTextLow5","altTextLow6","altTextLow7","altTextLow8","altTextLow9",
 		"altTextHighSmall2","altTextHighSmall3","altTextHighSmall4","altTextHighSmall5","altTextHighSmall6","altTextHighSmall7","altTextHighSmall8","altTextHighSmall9","altTextHighSmall10",
-	"altTextLowSmall1","altTextLowSmall2","altTextLowSmall3","altTextLowSmall4","altTextLowSmall5","altTextLowSmall6","altTextLowSmall7","altTextLowSmall8","altTextLowSmall9","alt.rollingdigits","alt.10000","alt.1000","alt.100", "hdg.bug", "hdg.bug.deg", "alt.bug", "alt.bug_small", "RPM.needle", "manin", "manin.needle", "alt.bug_scale", "alt.setting", "lcl_time", "VS.pointer", "VS.value", "wind.speed", "wind.dir", "wind.pointer", "loc.scale", "loc.pointer", "gs.scale", "gs.pointer"];
+	"altTextLowSmall1","altTextLowSmall2","altTextLowSmall3","altTextLowSmall4","altTextLowSmall5","altTextLowSmall6","altTextLowSmall7","altTextLowSmall8","altTextLowSmall9","alt.rollingdigits","alt.10000","alt.1000","alt.100", "hdg.bug", "hdg.bug.deg", "alt.bug", "alt.bug_small", "RPM.needle", "manin", "manin.needle", "alt.bug_scale", "alt.setting", "lcl_time", "VS.pointer", "VS.value", "wind.speed", "wind.dir", "wind.pointer", "loc.scale", "loc.pointer", "gs.scale", "gs.pointer","egt.degf"];
 	},
 	update: func() {
 		me["COM1Act"].setText(sprintf(comm1_act.getValue()));
@@ -218,9 +217,9 @@ var canvas_G3X_only = {
 		me["ff.GPH"].setText(sprintf("%4d", math.round(eng_ff.getValue())));
 		me["oil.F"].setText(sprintf("%3d", math.round(eng_ot.getValue())));
 		me["oil.PSI"].setText(sprintf("%3d", math.round(eng_op.getValue())));
-		
 		me["fuelL"].setTranslation(fuel_l.getValue()*102.3, 0);
 		me["fuelR"].setTranslation(fuel_r.getValue()*102.3, 0);
+		me["egt.degf"].setText(sprintf("%4d", math.round(eng_egt.getValue())));
 		
 		#Small info at the bottom of the screen
 		me["OAT"].setText(sprintf("%3d", math.round(oat_c.getValue())));
