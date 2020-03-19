@@ -20,8 +20,9 @@
 		<htailarm unit="FT">   68.24 </htailarm>
 		<vtailarea unit="FT2">   14.49 </vtailarea>
 		<vtailarm unit="FT">   65.62 </vtailarm>
+		<!-- CoG always must be behind AeroRP -->
 		<location name="AERORP" unit="M">
-			<x> -1.16</x>
+			<x> -1.145</x>
 			<y>   0.00 </y>
 			<z> -0.53 </z>
 		</location>
@@ -36,66 +37,74 @@
 			<z>0</z>
 		</location>
 	</metrics>
+	<!-- 	[1]	Center of Gravity (CoG)
+		Section 2 (CG Limitation) and Section 6 (Weight and Balance)
+		Datum:	100in(2.54m) in front of firewall (~-2.37m):	x=-4.91m
+			empty CG:	???
+			foremost CG:	137.8in(=3.500m):	-1.41m	(at 2100lbs)
+			aftmost CG:	148.1in(=3.762m):	-1.148m
+		
+		
+		pointmass positions:
+			forward passengers:	143.5in(=3.645m):	-1.265m
+			aft passengers:		180.0in(=4.572m):	-0.338m
+			baggage:		208.0in(=5.283m):	+0.373m
+			fuel:			154.9in(=3.934m):	-0.976m
+	-->
 	<mass_balance>
 		<ixx unit="SLUG*FT2">       897 </ixx>
 		<iyy unit="SLUG*FT2">     20699 </iyy>
 		<izz unit="SLUG*FT2">     19876 </izz>
 		<emptywt unit="LBS">      2348 </emptywt>
 		<location name="CG" unit="M">
-			<x> -1.18 </x>
+			<x> -1.25 </x>
 			<y>   0.00 </y>
 			<z> -0.54 </z>
 		</location>
 		<pointmass name="Pilot">
-			<description> Pilot Mass</description>
 			<weight unit="KG">    80 </weight>
 			<location name="Pilot" unit="M">
-				<x> -1.24 </x>
-				<y>   -0.325 </y>
+				<x> -1.265 </x>
+				<y> -0.325 </y>
 				<z> 0.045 </z>
 			</location>
 		</pointmass>
 		<pointmass name="Copilot">
-			<description>Copilot mass</description>
 			<weight unit="KG">    0 </weight>
 			<location name="POINTMASS" unit="M">
-				<x> -1.24 </x>
+				<x> -1.265 </x>
 				<y>   0.325 </y>
 				<z> 0.045 </z>
 			</location>
 		</pointmass>
 		<pointmass name="Passenger Left">
-			<description>Left Passenger mass</description>
 			<weight unit="KG">    0 </weight>
 			<location name="POINTMASS" unit="M">
-				<x> -0.36 </x>
+				<x> -0.338 </x>
 				<y>   -0.27</y>
 				<z> -0.066 </z>
 			</location>
 		</pointmass>
 		<pointmass name="Passenger Center">
-			<description>Center Passenger mass</description>
 			<weight unit="KG">    0 </weight>
 			<location name="POINTMASS" unit="M">
-				<x> -0.36 </x>
+				<x> -0.338 </x>
 				<y>   0.0</y>
 				<z> -0.066 </z>
 			</location>
 		</pointmass>
 		<pointmass name="Passenger Right">
-			<description>Right Passenger mass</description>
 			<weight unit="KG">    0 </weight>
 			<location name="POINTMASS" unit="M">
-				<x> -0.36 </x>
+				<x> -0.338 </x>
 				<y>   0.27</y>
 				<z> -0.066 </z>
 			</location>
 		</pointmass>
 		<pointmass name="Baggage">
-			<description>Baggage mass</description>
 			<weight unit="KG">    0 </weight>
 			<location name="POINTMASS" unit="M">
-				<x> 0.35 </x>
+				<x> 0.373</x>
 				<y>   0.00 </y>
 				<z> -0.14 </z>
 			</location>
@@ -211,7 +220,7 @@
 		<!--one fuel tank in each wing, 47.25 gallons = 284.445 lbs -->
 		<tank type="FUEL" number="0">
 			<location unit="M">
-				<x> -1 </x>
+				<x> -0.976 </x>
 				<y>  -1.37 </y>
 				<z> -0.5 </z>
 			</location>
@@ -220,7 +229,7 @@
 		</tank>
 		<tank type="FUEL" number="1">
 			<location unit="M">
-				<x> -1 </x>
+				<x> -0.976 </x>
 				<y>  1.37 </y>
 				<z> -0.5 </z>
 			</location>
@@ -410,6 +419,19 @@
 		</channel>
 	</flight_control>
 	<aerodynamics>
+		<function name="aero/qbar-total-psf">
+			<sum>
+				<property>aero/qbar-psf</property>
+				<product>
+					<value>0.5</value>
+					<property>atmosphere/rho-slugs_ft3</property>
+					<pow>
+						<property>propulsion/engine[0]/prop-induced-velocity_fps</property>
+						<value>2</value>
+					</pow>
+				</product>
+			</sum>
+		</function>
 		<axis name="LIFT">
 			<function name="aero/force/Lift_alpha">
 				<description>Lift due to alpha</description>
@@ -585,7 +607,7 @@
 			<function name="aero/moment/Roll_rudder">
 				<description>Roll moment due to rudder</description>
 				<product>
-					<property>aero/qbar-psf</property>
+					<property>aero/qbar-total-psf</property>
 					<property>metrics/Sw-sqft</property>
 					<property>metrics/bw-ft</property>
 					<property>fcs/rudder-pos-rad</property>
@@ -607,7 +629,7 @@
 			<function name="aero/moment/Pitch_elevator">
 				<description>Pitch moment due to elevator</description>
 				<product>
-					<property>aero/qbar-psf</property>
+					<property>aero/qbar-total-psf</property>
 					<property>metrics/Sw-sqft</property>
 					<property>metrics/cbarw-ft</property>
 					<property>fcs/elevator-pos-rad</property>
@@ -623,7 +645,7 @@
 			<function name="aero/moment/Pitch_damp">
 				<description>Pitch moment due to pitch rate</description>
 				<product>
-					<property>aero/qbar-psf</property>
+					<property>aero/qbar-total-psf</property>
 					<property>metrics/Sw-sqft</property>
 					<property>metrics/cbarw-ft</property>
 					<property>aero/ci2vel</property>
@@ -657,7 +679,7 @@
 			<function name="aero/moment/Yaw_damp">
 				<description>Yaw moment due to yaw rate</description>
 				<product>
-					<property>aero/qbar-psf</property>
+					<property>aero/qbar-total-psf</property>
 					<property>metrics/Sw-sqft</property>
 					<property>metrics/bw-ft</property>
 					<property>aero/bi2vel</property>
@@ -668,7 +690,7 @@
 			<function name="aero/moment/Yaw_rudder">
 				<description>Yaw moment due to rudder</description>
 				<product>
-					<property>aero/qbar-psf</property>
+					<property>aero/qbar-total-psf</property>
 					<property>metrics/Sw-sqft</property>
 					<property>metrics/bw-ft</property>
 					<property>fcs/rudder-pos-rad</property>
