@@ -7,12 +7,14 @@
 			<electrical>
 				<path/>
 			</electrical>
+			<!--
 			<property-rule n="100">
 				<path>Aircraft/SR22T/Systems/pfd.xml</path>
 			</property-rule>
 			<autopilot>
 				<path>Aircraft/SR22T/Systems/it-autoflight.xml</path>
 			</autopilot>
+			-->
 		</systems>
 		<instrumentation>
 			<path>Nasal/instrumentation.xml</path>
@@ -319,6 +321,11 @@
 	</consumables>
 	<input>
 		<keyboard include="Nasal/keyboard.xml"/>
+    <keyboard n="0">
+
+      <multikey include="Aircraft/Instruments-3d/FG1000/fg1000-multikey.xml"/>
+
+    </keyboard>
 	</input>
 	<nasal>
 		<itaf>
@@ -331,14 +338,18 @@
 			<file>Nasal/light.nas</file>
 			<file>Nasal/sr22t.nas</file>
 			<file>Nasal/electrical.nas</file>
+			<file>Nasal/fg1000_sr22t.nas</file>
 		</sr22t>
+		<!--
 		<canvas_g3x>
 			<file>Aircraft/SR22T/Models/Interior/Instruments/G3X/G3X.nas</file>
 		</canvas_g3x>
+		-->
 		<canvas_md302>
 			<file>Aircraft/SR22T/Models/Interior/Instruments/MD302/MD302_ai.nas</file>
 			<file>Aircraft/SR22T/Models/Interior/Instruments/MD302/MD302_alt.nas</file>
 		</canvas_md302>
+
 	</nasal>
 	
 </PropertyList>
