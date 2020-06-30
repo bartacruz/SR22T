@@ -1,7 +1,9 @@
+# Copyright 2020 Julio Santa Cruz (Barta)
 # SR22T Garmin Perspective implementation
 
 var nasal_dir = getprop("/sim/fg-root") ~ "/Aircraft/Instruments-3d/FG1000/Nasal/";
 var aircraft_dir = getprop("/sim/aircraft-dir");
+
 io.load_nasal(nasal_dir ~ 'FG1000.nas', "fg1000");
 io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SR22TInterfaceController.nas', "fg1000"); 
 
@@ -34,9 +36,8 @@ fg1000system.display(index:2);
 # Turn on/off the displays 
 # TODO: Check bus voltage
 var fg1000_power = func() {
-	var batt = props.globals.getNode("controls/electric/battery1-switch").getBoolValue() or props.globals.getNode("controls/electric/battery2-switch").getBoolValue();
-	var avionics = props.globals.getNode("controls/electric/avionics-switch").getBoolValue();
-        if (batt and avionics) {
+	var batt = props.globals.getNode("controls/electric/battery2-switch").getBoolValue();
+        if (batt) {
 		# Show the devices
 		fg1000system.show(index:1);
 		fg1000system.show(index:2);
@@ -51,8 +52,11 @@ var fg1000_power = func() {
 		setprop("/instrumentation/comm[1]/power-btn",0);
 	}
 };
-
-setlistener("/controls/electric/battery1-switch", fg1000_power);
+var navupdated  = func(n) {
+ print("NavUpdated " ~ n);
+};
+#setlistener("/controls/electric/battery1-switch", fg1000_power);
 setlistener("/controls/electric/battery2-switch", fg1000_power);
-setlistener("/controls/electric/avionics-switch", fg1000_power);
+setlistener("/instrumentation/comm/frequencies/standby-mhz", navupdated);
+#setlistener("/controls/electric/avionics-switch", fg1000_power);
 

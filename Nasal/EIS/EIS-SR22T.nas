@@ -31,7 +31,7 @@ var EIS =
 
     obj.addTextElements(["PowerDisplay","ManDisplay", "RPMDisplay", "FuelFlowDisplay", "OilTempDisplay", "OilPressureDisplay", "EGTDisplay", "MBusVolts", "EBusVolts"]);
 
-    obj._fuelFlowPointer    = PFD.PointerElement.new(obj.pageName, svg, "FuelFlowPointer", 0.0, 32.0, 135);
+    obj._fuelFlowPointer    = PFD.PointerElement.new(obj.pageName, svg, "FuelFlowPointer", 0.0, 38.0, 135);
     obj._oilPressurePointer = PFD.PointerElement.new(obj.pageName, svg, "OilPressurePointer", 0.0, 115.0, 135);
     obj._oilTempPointer     = PFD.PointerElement.new(obj.pageName, svg, "OilTempPointer", 0.0, 245.0, 135);
     obj._EGTPointer         = PFD.PointerElement.new(obj.pageName, svg, "EGTPointer", 0.0, 1.0, 135);
@@ -40,15 +40,15 @@ var EIS =
     obj._rightFuelPointer   = PFD.PointerElement.new(obj.pageName, svg, "RightFuelPointer", 0.0, 40.0, 135);
 
     #obj._RPMPointer = PFD.RotatingElement.new(obj.pageName, svg, "RPMPointer", 0.0, 2700.0, 250.0, [150,100]);
-    obj._PowerPointer = PFD.RotatingElement.new(obj.pageName, svg, "PowerPointer", 0, 100, 160, [300,100]);
+    obj._PowerPointer = PFD.RotatingElement.new(obj.pageName, svg, "PowerPointer", 0, 1.15, 160, [300,100]);
 
     return obj;
   },
 
   updateEngineData : func(engineData) {
-    var power = math.max(math.min(math.round((engineData.Man -10) / 0.185),100), 0);
+    #var power = math.max(math.min(math.round((engineData.Man -8) / 0.205),100), 0);
+    #var power = math.max(math.min(math.round((engineData.Man -8) / 0.28),115), 0);
     me.setTextElement("RPMDisplay", sprintf("%i", engineData.RPM));
-    me.setTextElement("PowerDisplay", sprintf("%i", power));
     me.setTextElement("ManDisplay", sprintf("%.1f", engineData.Man));
     me.setTextElement("FuelFlowDisplay", sprintf("%.1f", engineData.FuelFlowGPH));
     me.setTextElement("OilTempDisplay", sprintf("%.1f", engineData.OilTemperatureF));
@@ -63,7 +63,20 @@ var EIS =
     me._EGTCylinder.setValue(engineData.EGTNorm);
 
     #me._RPMPointer.setValue(engineData.RPM);
-    me._PowerPointer.setValue(power);
+
+    # From http://www.kineticlearning.com/pilots_world/cmpp/03_06/displayarticle.aspx
+    # Percent Power – The MFD uses the RPM, fuel flow, manifold pressure, and 
+    # outside air temperature to determine the percentage of rated power 
+    # being produced.
+    # 
+    # From the POH
+    # The digital percent power value is displayed in white numerals below the gage. 
+    # The display units calculate the percentage of maximum engine power 
+    # produced by the engine based on an algorithm employing manifold pressure, 
+    # indicated air speed, outside air temperature, pressure altitude, engine 
+    # speed, and fuel flow.
+    me.setTextElement("PowerDisplay", sprintf("%i", engineData.PowerPCT * 100));
+    me._PowerPointer.setValue(engineData.PowerPCT);
   },
 
   updateFuelData : func(fuelData) {

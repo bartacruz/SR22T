@@ -1,4 +1,5 @@
 # Copyright 2018 Stuart Buchanan
+# Copyright 2020 Julio Santa Cruz
 # This file is part of FlightGear.
 #
 # FlightGear is free software: you can redistribute it and/or modify
@@ -14,14 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with FlightGear.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Generic Interface controller.
+# SR22T Interface controller.
 
 var nasal_dir = getprop("/sim/fg-root") ~ "/Aircraft/Instruments-3d/FG1000/Nasal/";
+var aircraft_dir = getprop("/sim/aircraft-dir");
 io.load_nasal(nasal_dir ~ 'Interfaces/PropertyPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/PropertyUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/NavDataInterface.nas', "fg1000");
-io.load_nasal(nasal_dir ~ 'Interfaces/GenericEISPublisher.nas', "fg1000");
-io.load_nasal(nasal_dir ~ 'Interfaces/GenericNavComPublisher.nas', "fg1000");
+io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SR22TEISPublisher.nas', "fg1000");
+#io.load_nasal(nasal_dir ~ 'Interfaces/GenericNavComPublisher.nas', "fg1000");
+io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SR22TNavComPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericNavComUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFMSPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFMSUpdater.nas', "fg1000");
@@ -36,7 +39,7 @@ var SR22TInterfaceController = {
 
   INTERFACE_LIST : [
     "NavDataInterface",
-    "GenericEISPublisher",
+    "SR22TEISPublisher",
     "GenericNavComPublisher",
     "GenericNavComUpdater",
     "GenericFMSPublisher",
@@ -72,18 +75,19 @@ var SR22TInterfaceController = {
     # Reload the interfaces afresh to make development easier.  In normal
     # usage this interface will only be started once anyway.
     foreach (var interface; SR22TInterfaceController.INTERFACE_LIST) {
-      io.load_nasal(nasal_dir ~ 'Interfaces/' ~ interface ~ '.nas', "fg1000");
+      #io.load_nasal(nasal_dir ~ 'Interfaces/' ~ interface ~ '.nas', "fg1000");
       var code = sprintf("me.%sInstance = fg1000.%s.new();", interface, interface);
       var instantiate = compile(code);
       instantiate();
-      print("loaded " ~ interface);
+      print("InterfaceController: loaded " ~ interface);
     }
 
     foreach (var interface; SR22TInterfaceController.INTERFACE_LIST) {
-      io.load_nasal(nasal_dir ~ 'Interfaces/' ~ interface ~ '.nas', "fg1000");
+      #io.load_nasal(nasal_dir ~ 'Interfaces/' ~ interface ~ '.nas', "fg1000");
       var code = 'me.' ~ interface ~ 'Instance.start();';
       var start_interface = compile(code);
       start_interface();
+      print("InterfaceController: started " ~ interface);
     }
 
     me.running = 1;
@@ -93,10 +97,11 @@ var SR22TInterfaceController = {
     if (me.running == 0) return;
 
     foreach (var interface; SR22TInterfaceController.INTERFACE_LIST) {
-      io.load_nasal(nasal_dir ~ 'Interfaces/' ~ interface ~ '.nas', "fg1000");
+      #io.load_nasal(nasal_dir ~ 'Interfaces/' ~ interface ~ '.nas', "fg1000");
       var code = 'me.' ~ interface ~ 'Instance.stop();';
       var stop_interface = compile(code);
       stop_interface();
+      print("InterfaceController: stopped " ~ interface);
     }
   },
 
