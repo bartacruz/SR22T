@@ -632,7 +632,7 @@
 			<z-m> -0.02891 </z-m>
 			<pitch-deg>-3</pitch-deg>
 		</offsets>
-	</model>-->
+	</model>
 	<model>
 		<path>Instruments/GMA350/GMA350.ac</path>
 		<offsets>
@@ -649,7 +649,7 @@
 			<y-m> 0.0 </y-m>
 			<z-m> 0.025 </z-m>
 		</offsets>
-	</model>
+	</model>-->
 	<model>
 		<path>Instruments/Perspective/GDU-1240.1.xml</path>
 		<offsets>
@@ -666,24 +666,6 @@
 			<y-m> 0.03 </y-m>
 			<z-m> 0.19 </z-m>
 			<heading-deg>-6</heading-deg>
-		</offsets>
-	</model>
-	<model>
-		<path>Instruments/GMA350/GMA350.ac</path>
-		<offsets>
-			<x-m> -1.788</x-m>
-			<y-m> 0.0 </y-m>
-			<z-m> -0.09 </z-m>
-			<pitch-deg>-32.5</pitch-deg>
-		</offsets>
-	</model>
-	<model>
-		<path>Instruments/GMC305/GMC305.ac</path>
-		<offsets>
-			<x-m> -1.815</x-m>
-			<y-m> 0.0 </y-m>
-			<z-m> -0.055 </z-m>
-			<pitch-deg>-32.5</pitch-deg>
 		</offsets>
 	</model>
 	<!-- Pilot -->
@@ -1065,9 +1047,9 @@
     <object-name>CRS</object-name>
     <property>instrumentation/fg1000/screen2/course-deg</property>
     <center>
-      <x-m>0.006499</x-m>
-      <y-m>0.11829</y-m>
-      <z-m>0.004321</z-m>
+      <x-m>-1.8795</x-m>
+      <y-m>0.062914</y-m>
+      <z-m>0.066281</z-m>
     </center>
     <axis>
       <x>-1</x>
@@ -1140,9 +1122,9 @@
     <object-name>HDG</object-name>
     <property>instrumentation/fg1000/screen1/heading-bug-deg</property>
     <center>
-      <x-m>0.03255</x-m>
-      <y-m>-0.12940</y-m>
-      <z-m>0.01934</z-m>
+      <x-m>-1.7925</x-m>
+      <y-m>-0.060363</y-m>
+      <z-m>-0.058572</z-m>
     </center>
     <axis>
       <x>-1</x>
@@ -1636,6 +1618,255 @@
         <command>set-tooltip</command>
         <tooltip-id>ENT</tooltip-id>
         <label>Complete data entry, or confirm selection</label>
+      </binding>
+    </hovered>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>APbtn</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>AP</notification>
+        <offset>1</offset>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>AP.L0</tooltip-id>
+        <label>Toggle Autopilot</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>FDbtn</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>FD</notification>
+        <offset>1</offset>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>AP.L1</tooltip-id>
+        <label>Toggle Flight Director</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>NAVbtn</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>FD</notification>
+        <offset>1</offset>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>AP.L2</tooltip-id>
+        <label>Select AP NAV mode</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>ALTbtn</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>ALT</notification>
+        <offset>1</offset>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>AP.L3</tooltip-id>
+        <label>Select AP Altitude mode</label>
+        <offset>1</offset>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>VSbtn</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>VS</notification>
+        <offset>1</offset>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>AP.L4</tooltip-id>
+        <label>Select AP Vertical Speed mode</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>LVLbtn</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>FLC</notification>
+        <offset>1</offset>
+	<offset>1</offset>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>AP.L5</tooltip-id>
+        <label>Select AP Flight Level mode</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>YDbtn</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>YD</notification>
+        <offset>1</offset>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>AP.R0</tooltip-id>
+        <label>Select AP Yaw Damper</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>HDGbtn</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>HDG</notification>
+	<offset>1</offset>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>AP.R1</tooltip-id>
+        <label>Select AP Heading mode</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>APRbtn</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>APR</notification>
+        <offset>1</offset>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>AP.R2</tooltip-id>
+        <label>Select AP Approach mode</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>VNbtn</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>VNV</notification>
+	<offset>1</offset>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>AP.R3</tooltip-id>
+        <label>Select AP Vertical Navigation</label>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>knob</type>
+    <object-name>VScylinder</object-name>
+    <center>
+	    <x-m>-1.82174</x-m>
+	    <y-m>0.01929</y-m>
+	    <z-m>-0.064518</z-m>
+    </center>
+    <axis>
+        <x>0</x><y>1</y><z>0</z>
+    </axis>
+    <increase>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>NOSE_UP</notification>
+        <offset>1</offset>
+      </binding>
+    </increase>
+    <decrease>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>NOSE_DOWN</notification>
+        <offset>1</offset>
+      </binding>
+    </decrease>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>AP.R5</tooltip-id>
+        <label>AP Nose Trim</label>
       </binding>
     </hovered>
   </animation>

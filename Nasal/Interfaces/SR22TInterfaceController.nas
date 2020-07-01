@@ -30,9 +30,10 @@ io.load_nasal(nasal_dir ~ 'Interfaces/GenericFMSPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFMSUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericADCPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFuelInterface.nas', "fg1000");
-#io.load_nasal(nasal_dir ~ 'Interfaces/GenericFuelPublisher.nas', "fg1000");
-#io.load_nasal(nasal_dir ~ 'Interfaces/GFC700Interface.nas', "fg1000");
-
+io.load_nasal(nasal_dir ~ 'Interfaces/GenericFuelPublisher.nas', "fg1000");
+io.load_nasal(nasal_dir ~ 'Interfaces/GFC700Publisher.nas', "fg1000");
+io.load_nasal(nasal_dir ~ 'Interfaces/GFC700Interface.nas', "fg1000");
+print("All intefaces loaded");
 var SR22TInterfaceController = {
 
   _instance : nil,
@@ -46,9 +47,9 @@ var SR22TInterfaceController = {
     "GenericFMSUpdater",
     "GenericADCPublisher",
     "GenericFuelInterface",
-#    "GenericFuelPublisher",
-#    "GFC700Publisher",
-#    "GFC700Interface",
+    "GenericFuelPublisher",
+    "GFC700Publisher",
+    "GFC700Interface",
   ],
 
   # Factory method
