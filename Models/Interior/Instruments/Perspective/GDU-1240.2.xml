@@ -264,7 +264,7 @@
       </binding>
     </hovered>
   </animation>
-
+<!-- Buggy rotation. Disabled until fixed 
   <animation>
     <type>rotate</type>
     <object-name>HDG</object-name>
@@ -280,7 +280,7 @@
       <z>0</z>
     </axis>
   </animation>
-
+ -->
   <animation>
     <type>knob</type>
     <object-name>AltOuter</object-name>
@@ -417,6 +417,7 @@
     </hovered>
   </animation>
 
+<!-- Buggy rotation. Disabled until fixed 
   <animation>
     <type>rotate</type>
     <object-name>CRS</object-name>
@@ -432,7 +433,7 @@
       <z>0</z>
     </axis>
   </animation>
-
+-->
   <animation>
     <type>knob</type>
     <object-name>BARO</object-name>
