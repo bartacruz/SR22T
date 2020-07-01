@@ -20,12 +20,12 @@
 #
 # notifications.PFDEventNotification.NavComData
 #
-var GenericNavComPublisher =
+var SR22TNavComPublisher =
 {
   new : func (period=0.5) {
     var obj = {
       parents : [
-        GenericNavComPublisher,
+        SR22TNavComPublisher,
       ],
     };
 

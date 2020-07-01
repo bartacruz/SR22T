@@ -23,14 +23,13 @@ io.load_nasal(nasal_dir ~ 'Interfaces/PropertyPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/PropertyUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/NavDataInterface.nas', "fg1000");
 io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SR22TEISPublisher.nas', "fg1000");
-#io.load_nasal(nasal_dir ~ 'Interfaces/GenericNavComPublisher.nas', "fg1000");
 io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SR22TNavComPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericNavComUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFMSPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFMSUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericADCPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFuelInterface.nas', "fg1000");
-io.load_nasal(nasal_dir ~ 'Interfaces/GenericFuelPublisher.nas', "fg1000");
+io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SR22TFuelPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GFC700Publisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GFC700Interface.nas', "fg1000");
 print("All intefaces loaded");
@@ -41,13 +40,13 @@ var SR22TInterfaceController = {
   INTERFACE_LIST : [
     "NavDataInterface",
     "SR22TEISPublisher",
-    "GenericNavComPublisher",
+    "SR22TNavComPublisher",
     "GenericNavComUpdater",
     "GenericFMSPublisher",
     "GenericFMSUpdater",
     "GenericADCPublisher",
     "GenericFuelInterface",
-    "GenericFuelPublisher",
+    "SR22TFuelPublisher",
     "GFC700Publisher",
     "GFC700Interface",
   ],
@@ -73,10 +72,7 @@ var SR22TInterfaceController = {
   start : func() {
     if (me.running) return;
 
-    # Reload the interfaces afresh to make development easier.  In normal
-    # usage this interface will only be started once anyway.
     foreach (var interface; SR22TInterfaceController.INTERFACE_LIST) {
-      #io.load_nasal(nasal_dir ~ 'Interfaces/' ~ interface ~ '.nas', "fg1000");
       var code = sprintf("me.%sInstance = fg1000.%s.new();", interface, interface);
       var instantiate = compile(code);
       instantiate();
@@ -84,7 +80,6 @@ var SR22TInterfaceController = {
     }
 
     foreach (var interface; SR22TInterfaceController.INTERFACE_LIST) {
-      #io.load_nasal(nasal_dir ~ 'Interfaces/' ~ interface ~ '.nas', "fg1000");
       var code = 'me.' ~ interface ~ 'Instance.start();';
       var start_interface = compile(code);
       start_interface();
@@ -98,7 +93,6 @@ var SR22TInterfaceController = {
     if (me.running == 0) return;
 
     foreach (var interface; SR22TInterfaceController.INTERFACE_LIST) {
-      #io.load_nasal(nasal_dir ~ 'Interfaces/' ~ interface ~ '.nas', "fg1000");
       var code = 'me.' ~ interface ~ 'Instance.stop();';
       var stop_interface = compile(code);
       stop_interface();

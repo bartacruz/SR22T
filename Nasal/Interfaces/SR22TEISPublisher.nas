@@ -41,6 +41,8 @@ var SR22TEISPublisher =
     obj.addPropMap("OilTemperatureF", "/engines/engine[0]/oil-temperature-degf");
     obj.addPropMap("EGTNorm", "/engines/engine[0]/egt-norm");
     obj.addPropMap("VacuumSuctionInHG", "/systems/vacuum/suction-inhg");
+    
+    #TODO: update this to reflect actual power.
     obj.addPropMap("PowerPCT", "/controls/engines/engine[0]/throttle");
 
     return obj;

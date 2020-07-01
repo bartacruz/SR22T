@@ -21,9 +21,6 @@ var EIS_Class = fg1000.EIS;
 
 var fg1000system = fg1000.FG1000.getOrCreateInstance(EIS_Class:EIS_Class, EIS_SVG: "Nasal/EIS/MFDPages/EIS-SR22T.svg");
 
-# Create the FG1000
-var fg1000system = fg1000.FG1000.getOrCreateInstance();
-
 # Create a PFD as device 1, MFD as device 2
 fg1000system.addPFD(index:1);
 fg1000system.addMFD(index:2);
@@ -36,27 +33,24 @@ fg1000system.display(index:2);
 # Turn on/off the displays 
 # TODO: Check bus voltage
 var fg1000_power = func() {
-	var batt = props.globals.getNode("controls/electric/battery2-switch").getBoolValue();
+    var batt = props.globals.getNode("controls/electric/battery2-switch").getBoolValue();
         if (batt) {
-		# Show the devices
-		fg1000system.show(index:1);
-		fg1000system.show(index:2);
-                # Hack: Some nasal scripts and add-ons looks for this switch to
-		# detect if the radio is serviceable...
-		setprop("/instrumentation/comm/power-btn",1);
-		setprop("/instrumentation/comm[1]/power-btn",1);
+	        # Show the devices
+	        fg1000system.show(index:1);
+	        fg1000system.show(index:2);
+	        
+	        # Hack: Some nasal scripts and add-ons looks for this switch to
+	        # detect if the radio is serviceable...
+	        setprop("/instrumentation/comm/power-btn",1);
+	        setprop("/instrumentation/comm[1]/power-btn",1);
         } else {
-		fg1000system.hide(index:1);
-		fg1000system.hide(index:2);
-		setprop("/instrumentation/comm/power-btn",0);
-		setprop("/instrumentation/comm[1]/power-btn",0);
-	}
+	        fg1000system.hide(index:1);
+	        fg1000system.hide(index:2);
+	        #interfaceController.restart();
+	        
+	        setprop("/instrumentation/comm/power-btn",0);
+	        setprop("/instrumentation/comm[1]/power-btn",0);
+    }
 };
-var navupdated  = func(n) {
- print("NavUpdated " ~ n);
-};
-#setlistener("/controls/electric/battery1-switch", fg1000_power);
 setlistener("/controls/electric/battery2-switch", fg1000_power);
-setlistener("/instrumentation/comm/frequencies/standby-mhz", navupdated);
-#setlistener("/controls/electric/avionics-switch", fg1000_power);
 
