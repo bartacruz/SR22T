@@ -22,7 +22,7 @@ max hp: 315 at 2500 RPM
 	<air-intake-impedance-factor>0.18</air-intake-impedance-factor>
 	<ram-air-factor>0.1</ram-air-factor>
 	<minmp unit="INHG">         10.0 </minmp>
-	<maxmp unit="INHG">         28.5 </maxmp>
+	<maxmp unit="INHG">         30.5 </maxmp>
 	<displacement unit="IN3"> 550 </displacement>
 	<maxhp>        315.00 </maxhp>
 	<cycles>         4.0 </cycles>
@@ -39,4 +39,22 @@ max hp: 315 at 2500 RPM
 	<bore unit="IN">    5.25 </bore>
 	<cylinders>        6.0  </cylinders>
 	<compression-ratio>  7.5 </compression-ratio>
+	<numboostspeeds>1</numboostspeeds>
+	<boostoverride>0</boostoverride>
+	
+	<ratedboost1>3</ratedboost1>
+	<ratedaltitude1>18000</ratedaltitude1>
+	<ratedpower1>215</ratedpower1>
+	<ratedrpm1>2000</ratedrpm1>
+	
+	<!--	<ratedboost2>2</ratedboost2>
+	<ratedaltitude2>18000</ratedaltitude2>
+	<ratedpower2>215</ratedpower2>
+	<ratedrpm2>2200</ratedrpm2>
+	
+	<ratedboost3>3</ratedboost3>
+	<ratedaltitude3>18000</ratedaltitude3>
+	<ratedpower3>215</ratedpower3>
+	<ratedrpm3>2500</ratedrpm3>
+	-->
 </piston_engine>
