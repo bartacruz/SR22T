@@ -30,7 +30,6 @@ var SR22TEISPublisher =
 
     # Hack to handle most aircraft not having proper engine hours
     if (getprop("/engines/engine[0]/hours") == nil) setprop("/engines/engine[0]/hours", 157.0);
-#    if (getprop("/controls/engines/engine[0]/hours") == nil) setprop("/engines/engine[0]/hours", 157.0);
 
     obj.addPropMap("RPM", "/engines/engine[0]/rpm");
     obj.addPropMap("Man", "/engines/engine[0]/mp-osi");
@@ -40,6 +39,8 @@ var SR22TEISPublisher =
     obj.addPropMap("OilPressurePSI", "/engines/engine[0]/oil-pressure-psi");
     obj.addPropMap("OilTemperatureF", "/engines/engine[0]/oil-temperature-degf");
     obj.addPropMap("EGTNorm", "/engines/engine[0]/egt-norm");
+    obj.addPropMap("EGTDegF", "/engines/engine[0]/egt-degf");
+    obj.addPropMap("CHTDegF", "/engines/engine[0]/cht-degf");
     obj.addPropMap("VacuumSuctionInHG", "/systems/vacuum/suction-inhg");
     
     #TODO: update this to reflect actual power.

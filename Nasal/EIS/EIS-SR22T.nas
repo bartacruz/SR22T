@@ -29,18 +29,23 @@ var EIS =
 
     obj.setController(fg1000.EISController.new(obj, svg));
 
-    obj.addTextElements(["PowerDisplay","ManDisplay", "RPMDisplay", "FuelFlowDisplay", "OilTempDisplay", "OilPressureDisplay", "EGTDisplay", "MBusVolts", "EBusVolts"]);
+    obj.addTextElements(["PowerDisplay", "RPMDisplay", "ManDisplay", "FuelFlowDisplay", "OilTempDisplay", "OilPressureDisplay", "Batt1Display", "ESSDisplay","CHTDisplay","EGTDisplay" ]);
 
+    obj._PowerPointer = PFD.RotatingElement.new(obj.pageName, svg, "PowerPointer", 0, 1.15, 160, [300,100]);
+    
     obj._fuelFlowPointer    = PFD.PointerElement.new(obj.pageName, svg, "FuelFlowPointer", 0.0, 38.0, 135);
     obj._oilPressurePointer = PFD.PointerElement.new(obj.pageName, svg, "OilPressurePointer", 0.0, 115.0, 135);
     obj._oilTempPointer     = PFD.PointerElement.new(obj.pageName, svg, "OilTempPointer", 0.0, 245.0, 135);
-    obj._EGTPointer         = PFD.PointerElement.new(obj.pageName, svg, "EGTPointer", 0.0, 1.0, 135);
-    obj._EGTCylinder        = PFD.PointerElement.new(obj.pageName, svg, "EGTCylinder", 0.0, 1.0, 135);
-    obj._leftFuelPointer    = PFD.PointerElement.new(obj.pageName, svg, "LeftFuelPointer", 0.0, 40.0, 135);
-    obj._rightFuelPointer   = PFD.PointerElement.new(obj.pageName, svg, "RightFuelPointer", 0.0, 40.0, 135);
-
-    #obj._RPMPointer = PFD.RotatingElement.new(obj.pageName, svg, "RPMPointer", 0.0, 2700.0, 250.0, [150,100]);
-    obj._PowerPointer = PFD.RotatingElement.new(obj.pageName, svg, "PowerPointer", 0, 1.15, 160, [300,100]);
+    
+    obj._ampBattAPointer     = PFD.PointerElement.new(obj.pageName, svg, "Batt1Pointer", 0.0, 6, 135);
+    obj._EssBusPointer     = PFD.PointerElement.new(obj.pageName, svg, "ESSPointer", 0.0, 30, 135);
+    
+    #obj._EGTPointer         = PFD.PointerElement.new(obj.pageName, svg, "EGTPointer", 0.0, 1.0, 135);
+    #obj._EGTCylinder        = PFD.PointerElement.new(obj.pageName, svg, "EGTCylinder", 0.0, 1.0, 135);
+    #obj._leftFuelPointer    = PFD.PointerElement.new(obj.pageName, svg, "LeftFuelPointer", 0.0, 40.0, 135);
+    #obj._rightFuelPointer   = PFD.PointerElement.new(obj.pageName, svg, "RightFuelPointer", 0.0, 40.0, 135);
+    
+    
 
     return obj;
   },
@@ -53,17 +58,17 @@ var EIS =
     me.setTextElement("FuelFlowDisplay", sprintf("%.1f", engineData.FuelFlowGPH));
     me.setTextElement("OilTempDisplay", sprintf("%.1f", engineData.OilTemperatureF));
     me.setTextElement("OilPressureDisplay", sprintf("%.1f", engineData.OilPressurePSI));
-    me.setTextElement("EGTDisplay", sprintf("%.1f", engineData.EGTNorm));
-    me.setTextElement("MBusVolts", sprintf("%.01f", engineData.MBusVolts));
-    me.setTextElement("EBusVolts", sprintf("%.01f", engineData.MBusVolts)); # TODO: Include Emergency Bus
+    me.setTextElement("EGTDisplay", sprintf("%.1f", engineData.EGTDegF));
+    me.setTextElement("CHTDisplay", sprintf("%.1f", engineData.CHTDegF));
+#    me.setTextElement("MBusVolts", sprintf("%.01f", engineData.MBusVolts));
+    me.setTextElement("ESSDisplay", sprintf("%.01f", engineData.MBusVolts)); # TODO: Include Emergency Bus
+    
     me._fuelFlowPointer.setValue(engineData.FuelFlowGPH);
     me._oilPressurePointer.setValue(engineData.OilPressurePSI);
     me._oilTempPointer.setValue(engineData.OilTemperatureF);
-    me._EGTPointer.setValue(engineData.EGTNorm);
-    me._EGTCylinder.setValue(engineData.EGTNorm);
-
-    #me._RPMPointer.setValue(engineData.RPM);
-
+    me._ampBattAPointer.setValue(0);
+    me._EssBusPointer.setValue(engineData.MBusVolts); # TODO: use ESS 
+    
     # From http://www.kineticlearning.com/pilots_world/cmpp/03_06/displayarticle.aspx
     # Percent Power – The MFD uses the RPM, fuel flow, manifold pressure, and 
     # outside air temperature to determine the percentage of rated power 
@@ -80,8 +85,8 @@ var EIS =
   },
 
   updateFuelData : func(fuelData) {
-    me._leftFuelPointer.setValue(fuelData.LeftFuelUSGal);
-    me._rightFuelPointer.setValue(fuelData.RightFuelUSGal);
+    #me._leftFuelPointer.setValue(fuelData.LeftFuelUSGal);
+    #me._rightFuelPointer.setValue(fuelData.RightFuelUSGal);
   },
 
   # Menu tree .  engineMenu is referenced from most pages as softkey 0:
