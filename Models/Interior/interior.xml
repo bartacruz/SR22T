@@ -1369,6 +1369,19 @@
   </animation>
   <animation>
     <type>pick</type>
+    <object-name>KeyR</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>KEY_INPUT</notification>
+        <offset>R</offset>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
     <object-name>KeyT</object-name>
     <action>
       <button>0</button>
@@ -1603,6 +1616,19 @@
   </animation>
   <animation>
     <type>pick</type>
+    <object-name>KeyDot</object-name>
+    <action>
+      <button>0</button>
+      <binding>
+        <command>FG1000HardKeyPushed</command>
+        <device>2</device>
+        <notification>KEY_INPUT</notification>
+        <offset>.</offset>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
     <object-name>KeyENT</object-name>
     <action>
       <button>0</button>
@@ -1621,6 +1647,75 @@
       </binding>
     </hovered>
   </animation>
+  <animation>
+  	<type>material</type>
+  	<object-name>DidectTo</object-name>
+	<object-name>MENU</object-name>
+    <object-name>FPL</object-name>
+    <object-name>PROC</object-name>
+    <object-name>CLR</object-name>
+    <object-name>ENT</object-name>
+    <object-name>HOME</object-name>
+    <object-name>COMKey</object-name>
+    <object-name>NAVKey</object-name>
+    <object-name>CRSKey</object-name>
+    <object-name>XPDRKey</object-name>
+    <object-name>KeyA</object-name>
+    <object-name>KeyB</object-name>
+    <object-name>KeyC</object-name>
+    <object-name>KeyD</object-name>
+    <object-name>KeyE</object-name>
+    <object-name>KeyF</object-name>
+    <object-name>KeyG</object-name>
+    <object-name>KeyH</object-name>
+    <object-name>KeyI</object-name>
+    <object-name>KeyJ</object-name>
+    <object-name>KeyK</object-name>
+    <object-name>KeyL</object-name>
+    <object-name>KeyM</object-name>
+    <object-name>KeyN</object-name>
+    <object-name>KeyO</object-name>
+    <object-name>KeyP</object-name>
+    <object-name>KeyQ</object-name>
+    <object-name>KeyR</object-name>
+    <object-name>KeyS</object-name>
+    <object-name>KeyT</object-name>
+    <object-name>KeyU</object-name>
+    <object-name>KeyV</object-name>
+    <object-name>KeyW</object-name>
+    <object-name>KeyX</object-name>
+    <object-name>KeyY</object-name>
+    <object-name>KeyZ</object-name>
+    <object-name>Key0</object-name>
+    <object-name>Key1</object-name>
+    <object-name>Key2</object-name>
+    <object-name>Key3</object-name>
+    <object-name>Key4</object-name>
+    <object-name>Key5</object-name>
+    <object-name>Key6</object-name>
+    <object-name>Key7</object-name>
+    <object-name>Key8</object-name>
+    <object-name>Key9</object-name>
+    <object-name>KeySpace</object-name>
+    <object-name>KeyDot</object-name>
+    <object-name>KeyENT</object-name>
+    <object-name>HDGBtn</object-name>
+    <object-name>NAVBtn</object-name>
+    <object-name>APRBtn</object-name>
+    <object-name>LVLBtn</object-name>
+    <object-name>FDBtn</object-name>
+    <object-name>APBtn</object-name>
+    <object-name>YDBtn</object-name>
+    <object-name>ALTBtn</object-name>
+    <object-name>VSBtn</object-name>
+    
+    <emission>
+      <red>   0.30 </red>
+      <green> 0.30 </green>
+      <blue>  0.30 </blue>
+    </emission>
+ </animation>   
+<!--  Autopilot panel -->
   <animation>
     <type>pick</type>
     <object-name>APbtn</object-name>
