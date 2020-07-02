@@ -7,14 +7,6 @@
 			<electrical>
 				<path/>
 			</electrical>
-			<!--
-			<property-rule n="100">
-				<path>Aircraft/SR22T/Systems/pfd.xml</path>
-			</property-rule>
-			<autopilot>
-				<path>Aircraft/SR22T/Systems/it-autoflight.xml</path>
-			</autopilot>
-			-->
 			<autopilot>
 				<path>Aircraft/Instruments-3d/FG1000/GFC700.xml</path>
 			</autopilot>
@@ -122,6 +114,17 @@
 				</menu>
 			</default>
 		</menubar>
+		<aircraft-data>
+			<path>instrumentation/comm[0]/volume</path>
+			<path>instrumentation/comm[0]/frequencies/selected-mhz</path>
+	    	<path>instrumentation/comm[0]/frequencies/standby-mhz</path>
+	    	<path>instrumentation/nav[0]/frequencies/selected-mhz</path>
+		    <path>instrumentation/nav[0]/frequencies/standby-mhz</path>
+		    <path>instrumentation/comm[1]/frequencies/selected-mhz</path>
+		    <path>instrumentation/comm[1]/frequencies/standby-mhz</path>
+		    <path>instrumentation/nav[1]/frequencies/selected-mhz</path>
+		    <path>instrumentation/nav[1]/frequencies/standby-mhz</path>
+    	</aircraft-data>
 	</sim>
 	<it-autoflight>
 		<config>
@@ -351,5 +354,4 @@
 		</canvas_md302>
 
 	</nasal>
-	
 </PropertyList>
