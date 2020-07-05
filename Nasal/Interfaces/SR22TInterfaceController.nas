@@ -24,7 +24,8 @@ io.load_nasal(nasal_dir ~ 'Interfaces/PropertyUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/NavDataInterface.nas', "fg1000");
 io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SR22TEISPublisher.nas', "fg1000");
 io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SR22TNavComPublisher.nas', "fg1000");
-io.load_nasal(nasal_dir ~ 'Interfaces/GenericNavComUpdater.nas', "fg1000");
+io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SR22TNavComUpdater.nas', "fg1000");
+#io.load_nasal(nasal_dir ~ 'Interfaces/GenericNavComUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFMSPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFMSUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericADCPublisher.nas', "fg1000");
@@ -41,7 +42,7 @@ var SR22TInterfaceController = {
     "NavDataInterface",
     "SR22TEISPublisher",
     "SR22TNavComPublisher",
-    "GenericNavComUpdater",
+    "SR22TNavComUpdater",
     "GenericFMSPublisher",
     "GenericFMSUpdater",
     "GenericADCPublisher",

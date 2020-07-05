@@ -17,12 +17,12 @@
 # NavCom Interface using Emesary for a simple dual Nav/Com system using standard properties
 # This updates the properties from Emesary messages.
 
-var GenericNavComUpdater =
+var SR22TNavComUpdater =
 {
   new : func () {
     var obj = {
       parents : [
-        GenericNavComUpdater,
+        SR22TNavComUpdater,
         PropertyUpdater.new(
           notifications.PFDEventNotification.DefaultType,
           notifications.PFDEventNotification.NavComData
